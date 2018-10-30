@@ -2,6 +2,12 @@ import Task from './task';
 
 
 const ERROR_CLASS_NAME = 'validation-error';
+const taskTypes = {
+  learning: 'learning',
+  shopping: 'shopping',
+  traveling: 'traveling',
+  sport: 'sport',
+};
 
 class FormModal {
   constructor () {
@@ -64,17 +70,29 @@ class FormModal {
           name="title" placeholder="Enter title" value=${title}>
       </div>
       <div class="form-group">
-        <label for="type"><i class="fa fa-car"></i> Task Type</label>
-        <input type="select" class="form-control" id="type" name="type" 
-          placeholder="Select type" value=${type}>
-       </div>
-      <div class="form-group">
         <label for="description"><i class="fa fa-car"></i> Description</label>
         <textarea rows="4" cols="100" name="description" form="task-form" 
           name="description" id="description">
           ${description}
         </textarea>
       </div>
+      <div class="form-group">
+        <label for="type"><i class="fa fa-car"></i> Task Type</label>
+        <select class="form-control" id="type" name="type" value=${type}>
+          <option selected=${taskTypes.learning === type} value=${taskTypes.learning}>
+            ${taskTypes.learning}
+           </option>
+          <option selected=${taskTypes.shopping === type} value=${taskTypes.shopping}>
+            ${taskTypes.shopping}
+          </option>
+          <option selected=${taskTypes.traveling === type} value=${taskTypes.traveling}>
+            ${taskTypes.traveling}
+          </option>
+          <option selected=${taskTypes.sport === type} value=${taskTypes.sport}>
+            ${taskTypes.sport}
+          </option>
+        </select>
+       </div>
     `;
 
     if (id) {

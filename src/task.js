@@ -1,4 +1,4 @@
-import { generateId } from './helpers';
+import { generateId } from './utils';
 
 
 const taskSchema = {
@@ -37,6 +37,7 @@ class Task {
       return result;
     }
 
+    // TODO: implement saving
     // return this.save();
   }
 
