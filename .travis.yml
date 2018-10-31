@@ -13,12 +13,13 @@ cache:
     - node_modules
 
 install:
-  - npm install -g yarn
+  - npm i
+
 
 script:
-  - yarn lint
-  - yarn test
-  - yarn build
+  - npm run lint
+  - npm run test
+  - npm run build
 deploy:
   provider: pages
   keep-history: true
