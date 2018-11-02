@@ -2,6 +2,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 10;
   }
@@ -10,18 +11,18 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 10;
-  left: 0;
   top: 0;
+  left: 0;
+  animation-name: fadeIn;
+  animation-duration: 0.4s;
+  z-index: 10;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, .4);
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, .4);
-  -webkit-animation-name: fadeIn;
   -webkit-animation-duration: 0.4s;
-  animation-name: fadeIn;
-  animation-duration: 0.4s;
+  -webkit-animation-name: fadeIn;
 
   .form-group {
     margin-bottom: 15px;
@@ -29,27 +30,27 @@
 
   .modal-content {
     position: relative;
-    width: auto;
     bottom: 0;
-    background-color: white;
-    color: #000;
     margin: 10px;
     border-radius: 6px;
+    background-color: #FFFFFF;
+    width: auto;
+    color: #000000;
 
     .modal-header {
-      padding: 15px;
       border-bottom: 1px solid rgba(9, 9, 9, .2);
+      padding: 15px;
 
       .close {
         float: right;
+        opacity: .2;
         font-size: 28px;
         font-weight: bold;
-        opacity: .2;
 
         &:hover {
-          text-decoration: none;
           opacity: 1;
           cursor: pointer;
+          text-decoration: none;
         }
       }
     }
@@ -59,63 +60,63 @@
 
       label {
         display: inline-block;
-        width: 100%;
         margin-bottom: 5px;
         cursor: pointer;
+        width: 100%;
       }
 
       input, textarea, select {
         display: block;
-        width: 100%;
-        padding: 6px 12px;
-        font-size: 14px;
-        line-height: 1.42857143;
-        color: #555;
-        background-color: #fff;
-        background-image: none;
-        border: 1px solid #ccc;
+        border: 1px solid #CCCCCC;
         border-radius: 4px;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
+        background-color: #FFFFFF;
+        background-image: none;
+        padding: 6px 12px;
+        width: 100%;
+        line-height: 1.42857143;
+        color: #555555;
+        font-size: 14px;
         box-sizing: border-box;
 
         &.validation-error {
-          border-color: #ff4304;
+          border-color: #FF4304;
         }
       }
     }
 
     .modal-footer {
-      padding: 15px;
       border-top: 1px solid rgba(9, 9, 9, .2);
+      padding: 15px;
       text-align: right;
     }
   }
 }
 
 .button {
-  background-color: #fff;
   display: inline-block;
-  padding: 6px 12px;
   margin-bottom: 0;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  -ms-touch-action: manipulation;
-  touch-action: manipulation;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background-image: none;
   border: 1px solid rgba(9, 9, 9, .2);
   border-radius: 4px;
+  background-color: #FFFFFF;
+  background-image: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.42857143;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 400;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
 
   &:hover {
-    background-color: rgba(9, 9, 9, .1);
     border: 1px solid rgba(9, 9, 9, .3);
+    background-color: rgba(9, 9, 9, .1);
   }
 }
