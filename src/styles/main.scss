@@ -13,7 +13,7 @@
 		align-items: center;
 		justify-content: space-between;
 		    width: 100%;
-    		max-width: 370px;
+    		max-width: 400px;
 
     		.task-types {
     			
@@ -29,6 +29,29 @@
 
     .search {
         width: 100%;
-        max-width: 370px;
+        max-width: 400px;
+    }
+
+    .task-list {
+        width: 100%;
+        max-width: 500px;
+        border: 1px solid rgba(0, 0, 0, .2);
+
+        .task-item {
+            @include layout-type(row, wrap);
+
+            &:last-child {
+                 border-bottom: none;
+            }
+
+                border-bottom: 1px solid rgba(0, 0, 0, .1);            
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .task-text {
+            width: 75%;
+        }
     }
 }
