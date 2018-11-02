@@ -9,8 +9,37 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-<div id="app">
-  <button id="open-modal">open</button>
+<div id="app" class="main-page">
+	<div>
+		<button id="open-modal" class="button">Add</button>
+		<button id="open-modal" class="button">Finish all</button>
+		<button id="open-modal" class="button">Remove all</button>
+	</div>
+	<div class="filters">
+		<div>
+			<select class="task-types" id="type" name="type">
+          <option value="learning">
+            learning
+           </option>
+          <option value="shopping">
+            shopping
+          </option>
+          <option value="traveling">
+            traveling
+          </option>
+          <option value="sport">
+            sport
+          </option>
+        </select>
+        <span class="tasks-count">4 items left</span>
+		</div>
+		<div>
+			<button id="open-modal" class="button">All</button>
+			<button id="open-modal" class="button">Opened</button>
+			<button id="open-modal" class="button">Completed</button>
+		</div>
+	</div>
+	<input class="search" placeholder="Write to search">
 </div>
 </body>
 </html>

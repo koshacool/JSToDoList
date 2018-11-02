@@ -1,0 +1,7 @@
+$maxWidth: 490px;
+
+@mixin if-little-screen {
+  @media (max-width: $maxWidth - 1px) {
+    @content;
+  }
+}
