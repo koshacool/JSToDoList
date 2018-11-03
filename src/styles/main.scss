@@ -1,35 +1,59 @@
 @import './scripts/constants/constants';
 @import './scripts/mixins/flexbox';
 @import './scripts/mixins/borders';
+@import './customCheckbox';
 
 .main-page {
 	@include layout-type(column, nowrap);	
 
 	align-items: center;
 
+    .main-page__actions {
+        margin: 30px 0 10px;
+
+        .button {
+            margin-left: -4px;
+         }
+    }
+
 	.filters {
 		@include layout-type(row, wrap);	
 
 		align-items: center;
 		justify-content: space-between;
-		    width: 100%;
-    		max-width: 400px;
+	    width: 100%;
+    	max-width: 500px;
+         padding-bottom: 40px;
 
-    		.task-types {
-    			
-    		}
+         .button, .task-types {
+           font-size: 10px;
+         }
 
-    		.tasks-count {
-    			    display: block;
-                    margin-top: 5px;
-                    text-align: center;
+         .button {
+            margin-left: -4px;
+         }
+
+         .task-types {
+            text-transform: uppercase;
+         }
+
+        .filters__types {
+            position: relative;
+
+            .tasks-count {
+                    position: absolute;
                     font-size: 11px;
-    		}
+                    bottom: -15px;
+                    left: 15px;
+            }
+        }
+    		
 	}
 
     .search {
         width: 100%;
-        max-width: 400px;
+        max-width: 500px;
+        margin-bottom: 15px;
     }
 
     .task-list {
@@ -40,18 +64,39 @@
         .task-item {
             @include layout-type(row, wrap);
 
+            align-items: center;            
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 0, 0, .1);
+            width: 100%;            
+            min-height: 90px;
+
             &:last-child {
                  border-bottom: 0;
             }
-
-                align-items: center;            
-            justify-content: space-between;
-            border-bottom: 1px solid rgba(0, 0, 0, .1);
-            width: 100%;
         }
 
         .task-text {
-            width: 75%;
+            flex: 1;   
+
+            .task-text__title {
+                margin: 10px 0;
+                font-weight: 600;
+                font-size: 20px;
+            }
+
+            .task-text__description {
+                font-size: 14px;
+            }
+        }
+
+        .task-actions {
+            margin-right: 20px;
+
+            .task-actions__button {
+                font-size: 30px;
+                margin-right: 10px;
+                cursor: pointer;
+            }
         }
     }
 }

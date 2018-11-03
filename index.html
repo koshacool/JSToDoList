@@ -10,18 +10,18 @@
 </head>
 <body>
 <div id="app" class="main-page">
-	<div>
+	<div class="main-page__actions">
 		<button id="open-modal" class="button">Add</button>
 		<button id="open-modal" class="button">Finish all</button>
 		<button id="open-modal" class="button">Remove all</button>
 	</div>
 
 	<div class="filters">
-		<div>
+		<div class="filters__types">
 			<select class="task-types" id="type" name="type">
-          <option value="learning">
-            learning
-           </option>
+          		<option value="learning">
+            		learning
+           		</option>
           <option value="shopping">
             shopping
           </option>
@@ -32,58 +32,67 @@
             sport
           </option>
         </select>
-        <span class="tasks-count">4 items left</span>
+        	<span class="tasks-count">4 items left</span>
 		</div>
 
-		<div>
+		<div class="filters__buttons">
 			<button id="open-modal" class="button">All</button>
 			<button id="open-modal" class="button">Opened</button>
 			<button id="open-modal" class="button">Completed</button>
 		</div>
 	</div>
 
-	<input class="search" placeholder="Write to search">
+	<input class="search" placeholder="search">
 
 	<div class="task-list">
 		<div class="task-item"> 
-			<input type="checkbox" name="task-completed">
+			<label class="checkbox-container">
+  				<input type="checkbox">  				 
+  				<span class="checkmark"></span>
+			</label>
 
 			<div class="task-text">
-				<h3 class="task-item__title">title</h3>
-				<h3 class="task-item__description">description</h3>
+				<div class="task-text__title">Title</div>
+				<div class="task-text__description">Description</div>
 			</div>
 
 			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__remove"></i>
+				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
+				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
 			</div>
 		</div>
 
 		<div class="task-item"> 
-			<input type="checkbox" name="completed" class="task-completed">
+			<label class="checkbox-container">
+  				<input type="checkbox">  				 
+  				<span class="checkmark"></span>
+			</label>
 
 			<div class="task-text">
-				<h3 class="task-item__title">title</h3>
-				<h3 class="task-item__description">description</h3>
+				<div class="task-text__title">Title</div>
+				<div class="task-text__description">Description</div>
 			</div>
 
 			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__remove"></i>
+				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
+				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
 			</div>
 		</div>
 
 		<div class="task-item"> 
-			<input type="checkbox" name="task-completed">
+			<label class="checkbox-container">
+  				<input type="checkbox">  				 
+  				<span class="checkmark"></span>
+			</label>
 
 			<div class="task-text">
-				<h3 class="task-item__title">title</h3>
-				<h3 class="task-item__description">description</h3>
+				<div class="task-text__title">Title</div>
+				<div class="task-text__description">Description</div>
 			</div>
 
 			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__remove"></i>
+				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
+				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
 			</div>
 		</div>
 	</div>
