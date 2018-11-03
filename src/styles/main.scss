@@ -33,20 +33,20 @@
     }
 
     .task-list {
+        border: 1px solid rgba(0, 0, 0, .2);
         width: 100%;
         max-width: 500px;
-        border: 1px solid rgba(0, 0, 0, .2);
 
         .task-item {
             @include layout-type(row, wrap);
 
             &:last-child {
-                 border-bottom: none;
+                 border-bottom: 0;
             }
 
-                border-bottom: 1px solid rgba(0, 0, 0, .1);            
-            align-items: center;
+                align-items: center;            
             justify-content: space-between;
+            border-bottom: 1px solid rgba(0, 0, 0, .1);
             width: 100%;
         }
 
