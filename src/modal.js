@@ -119,7 +119,7 @@ class FormModal {
     }
   }
 
-  open (data) {
+  open (data = {}) {
     const $modalTitle = document.getElementById('modal-title');
 
     if (data.id) {

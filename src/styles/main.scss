@@ -3,7 +3,7 @@
 @import './scripts/mixins/borders';
 @import './customCheckbox';
 
-.main-page {
+.task-list-container {
 	@include layout-type(column, nowrap);	
 
 	align-items: center;
@@ -21,9 +21,9 @@
 
 		align-items: center;
 		justify-content: space-between;
-	    width: 100%;
-    	max-width: 500px;
-         padding-bottom: 40px;
+	    padding-bottom: 40px;
+    	width: 100%;
+         max-width: 500px;
 
          .button, .task-types {
            font-size: 10px;
@@ -31,6 +31,10 @@
 
          .button {
             margin-left: -4px;
+
+            &.active {
+                background-color: #008000;
+            }
          }
 
          .task-types {
@@ -42,21 +46,21 @@
 
             .tasks-count {
                     position: absolute;
-                    font-size: 11px;
                     bottom: -15px;
                     left: 15px;
+                    font-size: 11px;
             }
         }
     		
 	}
 
     .search {
+        margin-bottom: 15px;
         width: 100%;
         max-width: 500px;
-        margin-bottom: 15px;
     }
 
-    .task-list {
+    .tasks-list {
         border: 1px solid rgba(0, 0, 0, .2);
         width: 100%;
         max-width: 500px;
@@ -80,8 +84,8 @@
 
             .task-text__title {
                 margin: 10px 0;
-                font-weight: 600;
                 font-size: 20px;
+                font-weight: 600;
             }
 
             .task-text__description {
@@ -93,9 +97,9 @@
             margin-right: 20px;
 
             .task-actions__button {
-                font-size: 30px;
                 margin-right: 10px;
                 cursor: pointer;
+                font-size: 30px;
             }
         }
     }
