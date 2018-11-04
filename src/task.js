@@ -20,6 +20,10 @@ const taskSchema = {
     type: 'string',
     isRequired: true,
   },
+
+  status: {
+    type: 'string',
+  },
 };
 
 class Task {
@@ -42,11 +46,9 @@ class Task {
   }
 
   static validateField (name, value) {
-    const trimmedValue = value.trim();
-
     if (
-      (taskSchema[name].isRequired && !trimmedValue)
-      || typeof trimmedValue !== taskSchema[name].type
+      (taskSchema[name].isRequired && !value.trim())
+      || typeof value !== taskSchema[name].type
     ) {
       return false;
     }
