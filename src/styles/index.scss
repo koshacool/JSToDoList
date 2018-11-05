@@ -2,6 +2,7 @@
 @import './main.scss';
 
 body {
+  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -21,4 +22,31 @@ input, textarea, select {
         &.validation-error {
           border-color: #FF4304;
         }
-      }
+}
+
+$defaultTransition: .2s;
+$scrollWidth: 6px;
+$scrollTrackBorderRadius: 2.5px;
+$scrollThumbBorderRadius: 10px;
+
+
+/* width */
+::-webkit-scrollbar {
+  width: $scrollWidth;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: $scrollTrackBorderRadius;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: $scrollThumbBorderRadius;
+  background: rgba(9, 9, 9, .1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
