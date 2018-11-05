@@ -26,23 +26,42 @@ const taskSchema = {
   },
 };
 
+const TASKS_DB_NAME = 'localstorageTasks';
+
 class Task {
-  constructor ({ id = generateId(), title, type, description }) {
-    this.id = id;
-    this.title = title;
-    this.type = type;
-    this.description = description;
+  constructor ({ id, title, type, description, status = 'opened' }) {
+    this.taskObj = {
+      id: id || generateId(),
+      title,
+      type,
+      description,
+      status,
+    };
+
+    this.saveAction = id ? 'update' : 'create';
   }
 
   save () {
+    const tasks = JSON.parse(localStorage.getItem(TASKS_DB_NAME));
     const result = this.validate();
+    const task = { ...this.taskObj };
 
     if (result.error)  {
       return result;
     }
 
-    // TODO: implement saving
-    // return this.save();
+    if (this.saveAction === 'create') {
+      tasks.push(task);    
+    } else {
+      const taskIndex = tasks.findIndex(({ id }) => id === task.id);
+
+      tasks[taskIndex] = task;
+    }
+
+    
+    localStorage.setItem(TASKS_DB_NAME, JSON.stringify(tasks));
+
+    return { task };
   }
 
   static validateField (name, value) {
@@ -62,7 +81,7 @@ class Task {
     };
 
     Object.keys(taskSchema).forEach(fieldName => {
-      const isValid = Task.validateField(fieldName, this[fieldName]);
+      const isValid = Task.validateField(fieldName, this.taskObj[fieldName]);
 
       validationResult.notValidFields[fieldName] = isValid;
 
