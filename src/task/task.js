@@ -1,35 +1,14 @@
-import { generateId } from './utils';
+import storageService from '../localStorageService';
+import { generateId } from '../utils';
+import { taskSchema, taskStatuses } from './constants';
 
-
-const taskSchema = {
-  id: {
-    type: 'string',
-  },
-
-  title: {
-    type: 'string',
-    isRequired: true,
-  },
-
-  type: {
-    type: 'string',
-    isRequired: true,
-  },
-
-  description: {
-    type: 'string',
-    isRequired: true,
-  },
-
-  status: {
-    type: 'string',
-  },
+const saveAction = {
+  update: 'update',
+  create: 'create',
 };
 
-const TASKS_DB_NAME = 'localstorageTasks';
-
 class Task {
-  constructor ({ id, title, type, description, status = 'opened' }) {
+  constructor ({ id, title, type, description, status = taskStatuses.opened }) {
     this.taskObj = {
       id: id || generateId(),
       title,
@@ -38,11 +17,11 @@ class Task {
       status,
     };
 
-    this.saveAction = id ? 'update' : 'create';
+    this.saveAction = id ? saveAction.update : saveAction.create;
   }
 
   save () {
-    const tasks = JSON.parse(localStorage.getItem(TASKS_DB_NAME));
+    const tasks = storageService.get();
     const result = this.validate();
     const task = { ...this.taskObj };
 
@@ -50,16 +29,15 @@ class Task {
       return result;
     }
 
-    if (this.saveAction === 'create') {
+    if (this.saveAction === saveAction.create) {
       tasks.push(task);    
     } else {
       const taskIndex = tasks.findIndex(({ id }) => id === task.id);
 
       tasks[taskIndex] = task;
     }
-
     
-    localStorage.setItem(TASKS_DB_NAME, JSON.stringify(tasks));
+    storageService.set(tasks);
 
     return { task };
   }

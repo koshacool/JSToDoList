@@ -1,13 +1,8 @@
-import Task from './task';
+import Task from './task/task';
+import { taskTypes } from './task/constants';
 
 
 const ERROR_CLASS_NAME = 'validation-error';
-const taskTypes = {
-  learning: 'learning',
-  shopping: 'shopping',
-  traveling: 'traveling',
-  sport: 'sport',
-};
 
 class FormModal {
   constructor () {
@@ -56,13 +51,14 @@ class FormModal {
     $saveButton.addEventListener('click', this.saveForm);
   }
 
-  createTaskForm ({ id = '', title = '', type = '', description = '', status = '' }) {
+  createTaskForm (task = {}) {
+    const { id = '', title = '', description = '', status = '' } = task;
     const $modalBody = document.getElementById('modal-body');
-    const $formBlock = document.createElement('form');
+    const $typesBlock = this.createTypesSelect(task);
 
+    const $formBlock = document.createElement('form');
     $formBlock.className = 'task-form';
     $formBlock.id = 'task-form';
-
     $formBlock.innerHTML = `
       <div class="form-group">
         <label for="title"><i class="fa fa-car"></i> Title</label>
@@ -76,24 +72,8 @@ class FormModal {
           ${description}
         </textarea>
       </div>
-      <div class="form-group">
-        <label for="type"><i class="fa fa-car"></i> Task Type</label>
-        <select class="form-control" id="type" name="type" value=${type}>
-          <option selected=${taskTypes.learning === type} value=${taskTypes.learning}>
-            ${taskTypes.learning}
-           </option>
-          <option selected=${taskTypes.shopping === type} value=${taskTypes.shopping}>
-            ${taskTypes.shopping}
-          </option>
-          <option selected=${taskTypes.traveling === type} value=${taskTypes.traveling}>
-            ${taskTypes.traveling}
-          </option>
-          <option selected=${taskTypes.sport === type} value=${taskTypes.sport}>
-            ${taskTypes.sport}
-          </option>
-        </select>
-       </div>
     `;
+    $formBlock.appendChild($typesBlock);
 
     if (id) {
       const $idInput = document.createElement('input');
@@ -128,6 +108,34 @@ class FormModal {
     for (let i = 0; i < formInputs.length; i++) {
       formInputs[i].addEventListener('keyup', this.onInputKeyUp);
     }
+  }
+
+  createTypesSelect ({ type = '' }) {
+    const $typesBlock = document.createElement('div');
+    $typesBlock.className = 'form-group';
+    $typesBlock.innerHTML = `
+      <label for="type"><i class="fa fa-car"></i> Task Type</label>
+    `;
+
+    const $select = document.createElement('select');
+    $select.className = 'form-control';
+    $select.setAttribute('name', 'type');
+
+    Object.values(taskTypes).forEach(taskType => {
+      const $option = document.createElement('option');
+      $option.setAttribute('value', taskType);
+
+      if (taskType === type) {
+        $option.setAttribute('selected', 'selected');   
+      }
+
+      $option.innerHTML = taskType;
+      $select.appendChild($option);   
+    });
+
+    $typesBlock.appendChild($select);
+      
+    return $typesBlock;
   }
 
   open (callback,  data = {}) {
@@ -183,13 +191,11 @@ class FormModal {
 
   highlightInput ($input, isValid) {
     if (!isValid) {
-      $input.className = `${$input.className} ${ERROR_CLASS_NAME}`;
-      return;
+      $input.classList.add(ERROR_CLASS_NAME);
+    } else {
+      $input.classList.remove(ERROR_CLASS_NAME);
     }
-
-    $input.classList.remove(ERROR_CLASS_NAME);
   }
-
 }
 
 const modalController = new FormModal();

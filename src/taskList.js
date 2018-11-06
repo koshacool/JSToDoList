@@ -1,6 +1,7 @@
 import modalController from './modal';
 import storageService from './localStorageService';
 import { capitalize, debounce, countActiveTasks } from './utils';
+import { taskStatuses } from './task/constants';
 
 
 const mainActionsBlockId = 'main-page__actions';
@@ -13,9 +14,8 @@ const taskTypeSelectId = 'filters__task-type';
 const inputFilterId = 'filters__search';
 const filterButtonsBlockId = 'filters__buttons';
 const filterButtonsClasses = {
+  ...taskStatuses,
   all: 'all',
-  opened: 'opened',
-  completed: 'completed',
 };
 
 const listBlockId = 'tasks-list';
@@ -115,8 +115,10 @@ class TaskList {
 
   initEventListeners () {
     this.$mainActionsBlock.addEventListener('click', this.onClickMainActions);
-    this.$filterButtonsBlock.addEventListener('click',
-      this.onClickFilterButtons);
+    this.$filterButtonsBlock.addEventListener(
+      'click',
+      this.onClickFilterButtons
+    );
     this.$taskTypeSelect.addEventListener('change', this.onChangeType);
     this.$inputFilter.addEventListener('keyup', debounce(this.onInput));
     this.$listBlock.addEventListener('click', this.onTaskChange);
@@ -173,7 +175,7 @@ class TaskList {
       return true;
     });
 
-    this.$taskCount.innerHTML = `${countActiveTasks(tasks)} Tasks left`;
+    this.$taskCount.innerHTML = `<b>${countActiveTasks(this.tasks)}</b> Tasks left`;
 
     if (tasks.length) {
       tasks.forEach(taskObj => {
@@ -289,6 +291,7 @@ class TaskList {
           storageService.set(newTasks);
           this.tasks = newTasks;
           this.$listBlock.removeChild($task);
+          this.$taskCount.innerHTML = `<b>${countActiveTasks(this.tasks)}</b> Tasks left`;
         }
       },
       edit: {
@@ -316,8 +319,12 @@ class TaskList {
             $task.classList.add(filterButtonsClasses.opened);
           }
 
+
           this.tasks[taskIndex] = task;
+          this.$listBlock.innerHTML = '';
           storageService.set(this.tasks);
+
+          this.renderTasks();
         }
       },
     };
