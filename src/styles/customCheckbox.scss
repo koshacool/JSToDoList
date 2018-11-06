@@ -2,59 +2,59 @@ $checkboxSize: 20px;
 
 /* The container */
 .checkbox-container {
-    display: block;
-    position: relative;
-    padding-left: 50px;
-    margin-bottom: 12px;
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  cursor: pointer;
+  padding-left: 50px;
+
+  input {
+    position: absolute;
+    opacity: 0;
     cursor: pointer;
+    width: 0;
+    height: 0;
+  }
 
-    input {
-    	position: absolute;
-    	opacity: 0;
-    	cursor: pointer;
-    	height: 0;
-    	width: 0;
-	}
+  &:hover input ~ .checkmark {
+    border: 1px solid rgba(0, 0, 0, .5);
+    background-color: #EEEEEE;
 
-	&:hover input ~ .checkmark {
-        background-color: #eee;
-        border: 1px solid rgba(0, 0, 0, .5);
-
-        &:after {
-            display: block;
-            opacity: .3;
-        }
+    &:after {
+      display: block;
+      opacity: .3;
     }
+  }
 
-	input:checked ~ .checkmark {
-        &:after {
-            display: block;
-            opacity: 1;
-        }
+  input:checked ~ .checkmark {
+    &:after {
+      display: block;
+      opacity: 1;
     }
+  }
 
-	.checkmark {
-   	 	position: absolute;
-    	top: 0;
-    	left: 0;
-    	height: $checkboxSize;
-    	width: $checkboxSize;
-        border: 1px solid rgba(0, 0, 0, .2);
-        margin-left: 10px;
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 10px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    width: $checkboxSize;
+    height: $checkboxSize;
 
-    	&:after {
-    		content: "";
-    		position: absolute;
-    		display: none;
-    		left: 9px;
-            top: -8px;
-            width: 5px;
-            height: 25px;
-    		border: solid black;
-    		border-width: 0 3px 3px 0;
-    		-webkit-transform: rotate(45deg);
-    		-ms-transform: rotate(45deg);
-    		transform: rotate(45deg);
-		}
-	}
+    &:after {
+      display: none;
+      position: absolute;
+      top: -8px;
+      left: 9px;
+      transform: rotate(45deg);
+      border: solid #000000;
+      border-width: 0 3px 3px 0;
+      width: 5px;
+      height: 25px;
+      content: "";
+      -ms-transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
+    }
+  }
 }

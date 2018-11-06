@@ -56,7 +56,7 @@ class FormModal {
     $saveButton.addEventListener('click', this.saveForm);
   }
 
-  createTaskForm ({ id = '', title = '', type = '', description = '' }) {
+  createTaskForm ({ id = '', title = '', type = '', description = '', status = '' }) {
     const $modalBody = document.getElementById('modal-body');
     const $formBlock = document.createElement('form');
 
@@ -106,6 +106,17 @@ class FormModal {
       $formBlock.appendChild($idInput);
     }
 
+    if (status) {
+      const $statusInput = document.createElement('input');
+
+      $statusInput.type = 'hidden';
+      $statusInput.className = 'task-status';
+      $statusInput.setAttribute('value', status);
+      $statusInput.setAttribute('name', 'status');
+
+      $formBlock.appendChild($statusInput);
+    }
+
     if ($modalBody.hasChildNodes()) {
       $modalBody.firstChild.replaceWith($formBlock);
     } else {
@@ -119,7 +130,8 @@ class FormModal {
     }
   }
 
-  open (data) {
+  open (callback,  data = {}) {
+    this.callback = callback;
     const $modalTitle = document.getElementById('modal-title');
 
     if (data.id) {
@@ -134,6 +146,7 @@ class FormModal {
   }
 
   close () {
+    this.callback = null;
     this.$rootComponent.style.display = 'none';
   }
 
@@ -147,9 +160,10 @@ class FormModal {
     }
 
     const task = new Task(taskData);
-    const { error, notValidFields } = task.save();
+    const { error, notValidFields, task: newTask } = task.save();
 
     if (!error) {
+      this.callback && this.callback(newTask);
       this.close();
     } else {
       for (let i = 0; i < formInputs.length; i++) {
