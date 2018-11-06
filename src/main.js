@@ -1,7 +1,7 @@
 import modalController from './modal';
+import storageService from './localStorageService';
 import { capitalize, debounce, countActiveTasks } from './utils';
 
-import './styles/index.scss';
 
 const mainActionsBlockId = 'main-page__actions';
 const addButtonClass = 'add-task';
@@ -19,20 +19,6 @@ const filterButtonsClasses = {
 };
 
 const listBlockId = 'tasks-list';
-
-
-const TASKS_DB_NAME = 'localstorageTasks';
-
-document.addEventListener('DOMContentLoaded', () => {
-  let tasks = JSON.parse(localStorage.getItem(TASKS_DB_NAME));
-
-  if (!tasks) {
-    tasks = [];
-    localStorage.setItem(TASKS_DB_NAME, JSON.stringify(tasks));
-  }
-
-  new TaskList(tasks);
-});
 
 class TaskList {
   constructor (tasks) {
@@ -57,7 +43,7 @@ class TaskList {
     this.onChangeType = this.onChangeType.bind(this);
     this.onInput = this.onInput.bind(this);
     this.renderTasks = this.renderTasks.bind(this);
-    this.onTaskChange = this.onTaskChange.bind(this);    
+    this.onTaskChange = this.onTaskChange.bind(this);
     this.onCreateTask = this.onCreateTask.bind(this);
 
     this.onEditTask = this.onEditTask.bind(this);
@@ -178,7 +164,8 @@ class TaskList {
       if (
         (status !== 'all' && task.status !== status)
         || (type !== 'all' && task.type !== type)
-        || (text && task.title.toLowerCase().indexOf(text.toLowerCase()) === -1 && task.description.toLowerCase().indexOf(text.toLowerCase()) === -1)
+        || (text && task.title.toLowerCase().indexOf(text.toLowerCase()) === -1
+          && task.description.toLowerCase().indexOf(text.toLowerCase()) === -1)
       ) {
         return false;
       }
@@ -195,11 +182,11 @@ class TaskList {
       });
     } else {
       const $noTasks = document.createElement('h2');
-      $noTasks.innerHTML = 'You haven\'t any tasks.';      
+      $noTasks.innerHTML = 'You haven\'t any tasks.';
       $noTasks.className = 'no-tasks';
 
       this.$listBlock.appendChild($noTasks);
-    }    
+    }
   }
 
   onClickMainActions ({ target }) {
@@ -216,14 +203,14 @@ class TaskList {
           status: filterButtonsClasses.completed,
         }));
 
-        localStorage.setItem(TASKS_DB_NAME, JSON.stringify(finishedTasks));
-        this.tasks = finishedTasks; 
+        storageService.set(finishedTasks);
+        this.tasks = finishedTasks;
         this.$listBlock.innerHTML = '';
         this.renderTasks();
       }
 
       if (target.classList.contains(removeAllButtonClass)) {
-        localStorage.setItem(TASKS_DB_NAME, JSON.stringify([]));
+        storageService.clear();
         this.tasks = [];
         this.$listBlock.innerHTML = '';
         this.renderTasks();
@@ -243,7 +230,7 @@ class TaskList {
 
       this.tasks.push(task);
       this.$listBlock.replaceChild($newTask, $task);
-    };    
+    };
   }
 
   onClickFilterButtons ({ target }) {
@@ -255,13 +242,13 @@ class TaskList {
     const isButton = target.classList.contains('button');
     const isClickedActiveFilter = target.classList
       .contains(this.filtersState.button);
-    
+
 
     if (isButton && !isClickedActiveFilter) {
       const $prevActiveFilter = [].find.call(
         target.parentElement.children,
         elem => elem.classList.contains('active')
-      );      
+      );
       const filterValue = Object.keys(filterButtonsClasses)
         .find(value => target.classList.contains(value));
 
@@ -284,14 +271,14 @@ class TaskList {
     this.renderTasks();
   }
 
-  onInput ({ target }) {    
+  onInput ({ target }) {
     const value = target.value.trim();
-    this.updateFilters('text', value);    
+    this.updateFilters('text', value);
   }
 
   onTaskChange  ({ target })  {
     const { tasks } = this;
-    const $task = target.parentElement.parentElement;    
+    const $task = target.parentElement.parentElement;
     const taskId = $task.id;
     const taskActions = {
       remove: {
@@ -299,7 +286,7 @@ class TaskList {
         run: () => {
           const newTasks = tasks.filter(({ id }) => id !== taskId);
 
-          localStorage.setItem(TASKS_DB_NAME, JSON.stringify(newTasks));          
+          storageService.set(newTasks);
           this.tasks = newTasks;
           this.$listBlock.removeChild($task);
         }
@@ -315,7 +302,7 @@ class TaskList {
       changeStatus: {
         isCurrent: target.type === 'checkbox',
         run: () => {
-          const isChecked = target.checked;          
+          const isChecked = target.checked;
           const taskIndex = tasks.findIndex(({ id }) => id === taskId);
           const task = this.tasks[taskIndex];
 
@@ -330,7 +317,7 @@ class TaskList {
           }
 
           this.tasks[taskIndex] = task;
-          localStorage.setItem(TASKS_DB_NAME, JSON.stringify(this.tasks));
+          storageService.set(this.tasks);
         }
       },
     };
@@ -341,3 +328,5 @@ class TaskList {
     }
   }
 }
+
+export default TaskList;

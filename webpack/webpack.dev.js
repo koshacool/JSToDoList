@@ -7,7 +7,7 @@ module.exports = (env, { mode }) => {
  const config = {
   mode,
   entry: [
-    './src/main.js'
+    './src/index.js'
   ],
   output: {
     filename: 'bundle.js',
