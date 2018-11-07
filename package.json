@@ -27,6 +27,8 @@
   },
   "homepage": "https://github.com/koshacool/ToDoList",
   "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
     "eslint-plugin-jest": "^21.25.1",
@@ -46,5 +48,20 @@
     "webpack": "^4.22.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
   }
 }
