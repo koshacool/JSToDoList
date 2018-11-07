@@ -5,97 +5,10 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Todo List</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link href="styles.css" rel="stylesheet"></head>
 <body>
-<div id="app" class="main-page">
-	<div class="main-page__actions">
-		<button id="open-modal" class="button">Add</button>
-		<button id="open-modal" class="button">Finish all</button>
-		<button id="open-modal" class="button">Remove all</button>
-	</div>
-
-	<div class="filters">
-		<div class="filters__types">
-			<select class="task-types" id="type" name="type">
-          		<option value="learning">
-            		learning
-           		</option>
-          <option value="shopping">
-            shopping
-          </option>
-          <option value="traveling">
-            traveling
-          </option>
-          <option value="sport">
-            sport
-          </option>
-        </select>
-        	<span class="tasks-count">4 items left</span>
-		</div>
-
-		<div class="filters__buttons">
-			<button id="open-modal" class="button">All</button>
-			<button id="open-modal" class="button">Opened</button>
-			<button id="open-modal" class="button">Completed</button>
-		</div>
-	</div>
-
-	<input class="search" placeholder="search">
-
-	<div class="task-list">
-		<div class="task-item"> 
-			<label class="checkbox-container">
-  				<input type="checkbox">  				 
-  				<span class="checkmark"></span>
-			</label>
-
-			<div class="task-text">
-				<div class="task-text__title">Title</div>
-				<div class="task-text__description">Description</div>
-			</div>
-
-			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
-			</div>
-		</div>
-
-		<div class="task-item"> 
-			<label class="checkbox-container">
-  				<input type="checkbox">  				 
-  				<span class="checkmark"></span>
-			</label>
-
-			<div class="task-text">
-				<div class="task-text__title">Title</div>
-				<div class="task-text__description">Description</div>
-			</div>
-
-			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
-			</div>
-		</div>
-
-		<div class="task-item"> 
-			<label class="checkbox-container">
-  				<input type="checkbox">  				 
-  				<span class="checkmark"></span>
-			</label>
-
-			<div class="task-text">
-				<div class="task-text__title">Title</div>
-				<div class="task-text__description">Description</div>
-			</div>
-
-			<div class="task-actions">
-				<i class="fa fa-pencil task-actions__button task-actions__edit"></i>
-				<i class="fa fa-trash task-actions__button task-actions__remove"></i>
-			</div>
-		</div>
-	</div>
-</div>
+	<div id="app"></div>
 <script type="text/javascript" src="bundle.js"></script></body>
 </html>
