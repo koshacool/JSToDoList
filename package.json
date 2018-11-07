@@ -1,5 +1,5 @@
 {
-  "name": "project-scaffoldings",
+  "name": "todo-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/front-camp-2018/project-scaffoldings.git"
+    "url": "git+https://github.com/koshacool/ToDoList"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/front-camp-2018/project-scaffoldings/issues"
+    "url": "https://github.com/koshacool/ToDoList/issues"
   },
-  "homepage": "https://github.com/front-camp-2018/project-scaffoldings#readme",
+  "homepage": "https://github.com/koshacool/ToDoList",
   "devDependencies": {
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
