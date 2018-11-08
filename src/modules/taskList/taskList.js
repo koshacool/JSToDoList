@@ -1,6 +1,7 @@
 import modalController from '../modal';
 import { capitalize, debounce, countActiveTasks, sortTasks } from '../utils';
 import { taskStatuses } from '../task/constants';
+import alertService from '../alert/alert';
 import {
   mainActionsBlockId,
   countBlockId,
@@ -171,6 +172,8 @@ class TaskList {
             this.tasks = tasks;
             this.$listBlock.innerHTML = '';
             this.renderTasks();
+
+            alertService.showSuccess('All tasks succefully complited.');
           });
       }
 
@@ -180,11 +183,10 @@ class TaskList {
             this.tasks = res;
             this.$listBlock.innerHTML = '';
             this.renderTasks();
+
+            alertService.showSuccess('All tasks succefully removed.');
           })
-          .catch(({ message }) => {
-            // TODO: implement popup to show error message
-            alert(message);
-          });
+          .catch(alertService.showError);
         
       }
     }
@@ -194,6 +196,8 @@ class TaskList {
     this.$listBlock.innerHTML = '';
     this.tasks.push(task);
     this.renderTasks();
+
+    alertService.showSuccess('Task succefully created.');
   }
 
   onEditTask ($task, taskIndex) {
@@ -202,6 +206,8 @@ class TaskList {
 
       this.tasks[taskIndex] = updatedTask;
       this.$listBlock.replaceChild($newTask, $task);
+
+      alertService.showSuccess('Task succefully updated.');
     };
   }
 
@@ -268,11 +274,10 @@ class TaskList {
                 const text = `You haven't any ${status === 'all' ? '' : status} tasks.`;
                 this.$listBlock.innerHTML = `<h2 class="no-tasks">${text}</h2>`;
               }
+
+              alertService.showSuccess('Task succefully removed.');
             })
-            .catch(({ message }) => {
-            // TODO: implement popup to show error message
-              alert(message);
-            });
+            .catch(alertService.showError);
         },
       },
       edit: {
@@ -301,11 +306,10 @@ class TaskList {
               this.tasks[taskIndex] = task;
               this.$listBlock.innerHTML = '';
               this.renderTasks();
+
+              alertService.showSuccess('Task succefully updated.');
             })
-            .catch(({ message }) => {
-            // TODO: implement popup to show error message
-              alert(message);
-            });
+            .catch(alertService.showError);
         },
       },
     };
