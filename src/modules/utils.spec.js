@@ -1,5 +1,5 @@
-const { generateId, capitalize, debounce } = require('./utils');
-
+const { generateId, capitalize, debounce, countActiveTasks } = require(
+  './utils');
 
 test('generateId function should generate unique values', () => {
   const values = [];
@@ -12,7 +12,7 @@ test('generateId function should generate unique values', () => {
     for (let i = values.length - 1; index > index; i--) {
       expect(value).not.toEqual(values[i]);
     }
-  });  
+  });
 });
 
 test('should capitalize first letter', () => {
@@ -22,9 +22,32 @@ test('should capitalize first letter', () => {
   expect(capitalize('tEXT')).toEqual('TEXT');
 });
 
-	
+test('Should correct count active tasks', () => {
+  const tasksMock = {
+    allCompleted: [
+      { status: 'completed' },
+      { status: 'completed' },
+      { status: 'completed' },
+    ],
+    allActive: [
+      { status: 'active' },
+      { status: 'active' },
+      { status: 'active' },
+    ],
+    oneActive: [
+      { status: 'completed' },
+      { status: 'active' },
+      { status: 'completed' },
+    ],
+  };
 
-test('should be executed with delay', () => {	
+  expect(countActiveTasks(tasksMock.allCompleted)).toEqual(0);
+  expect(countActiveTasks(tasksMock.allActive))
+    .toEqual(tasksMock.allActive.length);
+  expect(countActiveTasks(tasksMock.oneActive)).toEqual(1);
+});
+
+test('should be executed with delay', () => {
   jest.useFakeTimers();
   const callback = jest.fn();
   debounce(callback)(123);

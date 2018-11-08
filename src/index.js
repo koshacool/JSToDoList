@@ -1,5 +1,5 @@
-import storageService from './localStorageService';
-import TaskList from './main';
+import storageService from './modules/localStorage/localStorageService';
+import TaskList from './modules/taskList/taskList';
 
 import './styles/index.scss';
 
