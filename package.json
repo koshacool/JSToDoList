@@ -1,5 +1,5 @@
 {
-  "name": "project-scaffoldings",
+  "name": "todo-list",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,15 +18,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/front-camp-2018/project-scaffoldings.git"
+    "url": "git+https://github.com/koshacool/ToDoList"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/front-camp-2018/project-scaffoldings/issues"
+    "url": "https://github.com/koshacool/ToDoList/issues"
   },
-  "homepage": "https://github.com/front-camp-2018/project-scaffoldings#readme",
+  "homepage": "https://github.com/koshacool/ToDoList",
   "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
     "eslint-plugin-jest": "^21.25.1",
@@ -46,5 +48,20 @@
     "webpack": "^4.22.0",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ]
   }
 }
