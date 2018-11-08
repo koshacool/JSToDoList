@@ -10,6 +10,11 @@ export const taskStatuses = {
   completed: 'completed',
 };
 
+export const saveAction = {
+  update: 'update',
+  create: 'create',
+};
+
 export const taskSchema = {
   id: {
     type: 'string',

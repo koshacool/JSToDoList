@@ -1,11 +1,6 @@
-import storageService from '../localStorageService';
+import storageService from '../localStorage/localStorageService';
 import { generateId } from '../utils';
-import { taskSchema, taskStatuses } from './constants';
-
-const saveAction = {
-  update: 'update',
-  create: 'create',
-};
+import { taskSchema, taskStatuses, saveAction } from './constants';
 
 class Task {
   constructor ({ id, title, type, description, status = taskStatuses.opened }) {
@@ -22,25 +17,27 @@ class Task {
 
   save () {
     const tasks = storageService.get();
-    const result = this.validate();
-    const task = { ...this.taskObj };
+    const validationResult = this.validate();
+    const task = { ...this.taskObj, updatedAt: new Date() };
 
-    if (result.error)  {
-      return result;
-    }
+    return new Promise((resolve, reject) => {
+      if (validationResult.error)  {
+        reject(validationResult);
+      }
 
-    if (this.saveAction === saveAction.create) {
-      tasks.push(task);    
-    } else {
-      const taskIndex = tasks.findIndex(({ id }) => id === task.id);
+      if (this.saveAction === saveAction.create) {
+        tasks.push(task);
+      } else {
+        const taskIndex = tasks.findIndex(({ id }) => id === task.id);
 
-      tasks[taskIndex] = task;
-    }
-    
-    storageService.set(tasks);
+        tasks[taskIndex] = task;
+      }
 
-    return { task };
+      storageService.set(tasks);
+      resolve({ task });
+    });
   }
+
 
   static validateField (name, value) {
     if (
@@ -65,6 +62,7 @@ class Task {
 
       if (!isValid) {
         validationResult.error = true;
+        validationResult.message = 'Not valid field';
       }
     });
 

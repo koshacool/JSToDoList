@@ -126,15 +126,15 @@ class FormModal {
       $option.setAttribute('value', taskType);
 
       if (taskType === type) {
-        $option.setAttribute('selected', 'selected');   
+        $option.setAttribute('selected', 'selected');
       }
 
       $option.innerHTML = taskType;
-      $select.appendChild($option);   
+      $select.appendChild($option);
     });
 
     $typesBlock.appendChild($select);
-      
+
     return $typesBlock;
   }
 
@@ -168,18 +168,21 @@ class FormModal {
     }
 
     const task = new Task(taskData);
-    const { error, notValidFields, task: newTask } = task.save();
+    task.save()
+      .then(({ task }) => {
+        this.callback && this.callback(task);
+        this.close();
+      })
+      .catch(({ message, notValidFields }) => {
+        for (let i = 0; i < formInputs.length; i++) {
+          const { name } = formInputs[i];
 
-    if (!error) {
-      this.callback && this.callback(newTask);
-      this.close();
-    } else {
-      for (let i = 0; i < formInputs.length; i++) {
-        const { name } = formInputs[i];
+          this.highlightInput(formInputs[i], notValidFields[name]);
+        }
 
-        this.highlightInput(formInputs[i], notValidFields[name]);
-      }
-    }
+        // TODO: implement popup to show error message
+        alert(message);
+      });
   }
 
   onInputKeyUp ({ target }) {
