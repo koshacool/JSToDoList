@@ -1,5 +1,6 @@
 import Task from './task/task';
 import { taskTypes } from './task/constants';
+import alertService from './alert/alert';
 
 
 const ERROR_CLASS_NAME = 'validation-error';
@@ -173,15 +174,17 @@ class FormModal {
         this.callback && this.callback(task);
         this.close();
       })
-      .catch(({ message, notValidFields }) => {
+      .catch(error => {
+        const { notValidFields } = error;
+
         for (let i = 0; i < formInputs.length; i++) {
           const { name } = formInputs[i];
 
           this.highlightInput(formInputs[i], notValidFields[name]);
+         
         }
-
-        // TODO: implement popup to show error message
-        alert(message);
+        
+        alertService.showError(error);
       });
   }
 

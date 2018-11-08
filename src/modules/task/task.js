@@ -22,28 +22,28 @@ class Task {
 
     return new Promise((resolve, reject) => {
       if (validationResult.error)  {
-        reject(validationResult);
-      }
-
-      if (this.saveAction === saveAction.create) {
-        tasks.push(task);
+        return reject(validationResult);
       } else {
-        const taskIndex = tasks.findIndex(({ id }) => id === task.id);
+        if (this.saveAction === saveAction.create) {
+          tasks.push(task);
+        } else {
+          const taskIndex = tasks.findIndex(({ id }) => id === task.id);
+          tasks[taskIndex] = task;
+        }
 
-        tasks[taskIndex] = task;
-      }
-
-      storageService.set(tasks);
-      resolve({ task });
+        storageService.set(tasks);
+        resolve({ task });
+      }      
     });
   }
 
   static remove (taskId) {
-    const tasks = storageService.get();
-    const newTasks = tasks.filter(({ id }) => id !== taskId);
 
     return new Promise((resolve, reject) => {
-      try {        
+      try {    
+        const tasks = storageService.get();
+        const newTasks = tasks.filter(({ id }) => id !== taskId); 
+          
         storageService.set(newTasks);
         resolve(newTasks);
       } catch (error) {
