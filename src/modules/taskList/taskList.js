@@ -1,24 +1,19 @@
-import modalController from './modal';
-import storageService from './localStorageService';
-import { capitalize, debounce, countActiveTasks } from './utils';
-
-
-const mainActionsBlockId = 'main-page__actions';
-const addButtonClass = 'add-task';
-const finishAllButtonClass = 'finish-all-tasks';
-const removeAllButtonClass = 'remove-all-tasks';
-
-// Filters buttons
-const taskTypeSelectId = 'filters__task-type';
-const inputFilterId = 'filters__search';
-const filterButtonsBlockId = 'filters__buttons';
-const filterButtonsClasses = {
-  all: 'all',
-  opened: 'opened',
-  completed: 'completed',
-};
-
-const listBlockId = 'tasks-list';
+import modalController from '../modal';
+import { capitalize, debounce, countActiveTasks, sortTasks } from '../utils';
+import { taskStatuses } from '../task/constants';
+import {
+  mainActionsBlockId,
+  countBlockId,
+  listBlockId,
+  taskTypeSelectId,
+  inputFilterId,
+  addButtonClass,
+  finishAllButtonClass,
+  removeAllButtonClass,
+  filterButtonsBlockId,
+  filterButtonsClasses,
+} from './constants';
+import Task from '../task/task';
 
 class TaskList {
   constructor (tasks) {
@@ -37,7 +32,7 @@ class TaskList {
     this.$inputFilter = document.getElementById(inputFilterId);
     this.$filterButtonsBlock = document.getElementById(filterButtonsBlockId);
     this.$listBlock = document.getElementById(listBlockId);
-    this.$taskCount = document.getElementById('tasks-count');
+    this.$taskCount = document.getElementById(countBlockId);
 
     this.onClickFilterButtons = this.onClickFilterButtons.bind(this);
     this.onChangeType = this.onChangeType.bind(this);
@@ -50,7 +45,7 @@ class TaskList {
     this.onClickMainActions = this.onClickMainActions.bind(this);
     this.onClickFilterButtons = this.onClickFilterButtons.bind(this);
 
-    this.renderTasks(this.tasks);
+    this.renderTasks();
     this.initEventListeners();
   }
 
@@ -115,8 +110,10 @@ class TaskList {
 
   initEventListeners () {
     this.$mainActionsBlock.addEventListener('click', this.onClickMainActions);
-    this.$filterButtonsBlock.addEventListener('click',
-      this.onClickFilterButtons);
+    this.$filterButtonsBlock.addEventListener(
+      'click',
+      this.onClickFilterButtons,
+    );
     this.$taskTypeSelect.addEventListener('change', this.onChangeType);
     this.$inputFilter.addEventListener('keyup', debounce(this.onInput));
     this.$listBlock.addEventListener('click', this.onTaskChange);
@@ -131,7 +128,8 @@ class TaskList {
     $checkboxBlock.className = 'checkbox-container';
     const $checkbox = document.createElement('input');
     $checkbox.setAttribute('type', 'checkbox');
-    status === filterButtonsClasses.completed && $checkbox.setAttribute('checked', true);
+    status === filterButtonsClasses.completed &&
+    $checkbox.setAttribute('checked', true);
     const $span = document.createElement('span');
     $span.className = 'checkmark';
     $checkboxBlock.appendChild($checkbox);
@@ -158,37 +156,6 @@ class TaskList {
     return $taskItem;
   }
 
-  renderTasks () {
-    const { status, type, text } = this.filtersState;
-    const tasks = this.tasks.filter(task => {
-      if (
-        (status !== 'all' && task.status !== status)
-        || (type !== 'all' && task.type !== type)
-        || (text && task.title.toLowerCase().indexOf(text.toLowerCase()) === -1
-          && task.description.toLowerCase().indexOf(text.toLowerCase()) === -1)
-      ) {
-        return false;
-      }
-
-      return true;
-    });
-
-    this.$taskCount.innerHTML = `${countActiveTasks(tasks)} Tasks left`;
-
-    if (tasks.length) {
-      tasks.forEach(taskObj => {
-        const $taskItem = this.createTaskElement(taskObj);
-        this.$listBlock.appendChild($taskItem);
-      });
-    } else {
-      const $noTasks = document.createElement('h2');
-      $noTasks.innerHTML = 'You haven\'t any tasks.';
-      $noTasks.className = 'no-tasks';
-
-      this.$listBlock.appendChild($noTasks);
-    }
-  }
-
   onClickMainActions ({ target }) {
     const isButton = target.classList.contains('button');
 
@@ -197,23 +164,28 @@ class TaskList {
         modalController.open(this.onCreateTask);
       }
 
-      if (target.classList.contains(finishAllButtonClass)) {
-        const finishedTasks = this.tasks.map(task => ({
-          ...task,
-          status: filterButtonsClasses.completed,
-        }));
-
-        storageService.set(finishedTasks);
-        this.tasks = finishedTasks;
-        this.$listBlock.innerHTML = '';
-        this.renderTasks();
+      if (target.classList.contains(finishAllButtonClass)) {        
+        Task.finishAll()
+          .then(data => data.map(({ task }) => task))
+          .then(tasks => {
+            this.tasks = tasks;
+            this.$listBlock.innerHTML = '';
+            this.renderTasks();
+          });
       }
 
       if (target.classList.contains(removeAllButtonClass)) {
-        storageService.clear();
-        this.tasks = [];
-        this.$listBlock.innerHTML = '';
-        this.renderTasks();
+        Task.removeAll()
+          .then(res => {
+            this.tasks = res;
+            this.$listBlock.innerHTML = '';
+            this.renderTasks();
+          })
+          .catch(({ message }) => {
+            // TODO: implement popup to show error message
+            alert(message);
+          });
+        
       }
     }
   }
@@ -224,11 +196,11 @@ class TaskList {
     this.renderTasks();
   }
 
-  onEditTask ($task) {
-    return task => {
-      const $newTask = this.createTaskElement(task);
+  onEditTask ($task, taskIndex) {
+    return updatedTask => {
+      const $newTask = this.createTaskElement(updatedTask);
 
-      this.tasks.push(task);
+      this.tasks[taskIndex] = updatedTask;
       this.$listBlock.replaceChild($newTask, $task);
     };
   }
@@ -240,17 +212,16 @@ class TaskList {
       this.renderTasks();
     };
     const isButton = target.classList.contains('button');
-    const isClickedActiveFilter = target.classList
-      .contains(this.filtersState.button);
-
+    const isClickedActiveFilter = target.classList.contains(
+      this.filtersState.button);
 
     if (isButton && !isClickedActiveFilter) {
       const $prevActiveFilter = [].find.call(
         target.parentElement.children,
-        elem => elem.classList.contains('active')
+        elem => elem.classList.contains('active'),
       );
-      const filterValue = Object.keys(filterButtonsClasses)
-        .find(value => target.classList.contains(value));
+      const filterValue = Object.keys(filterButtonsClasses).
+        find(value => target.classList.contains(value));
 
       $prevActiveFilter.classList.remove('active');
       target.classList.add('active');
@@ -276,55 +247,105 @@ class TaskList {
     this.updateFilters('text', value);
   }
 
-  onTaskChange  ({ target })  {
+  onTaskChange ({ target }) {
     const { tasks } = this;
     const $task = target.parentElement.parentElement;
     const taskId = $task.id;
+    const taskIndex = tasks.findIndex(({ id }) => id === taskId);
     const taskActions = {
       remove: {
         isCurrent: target.classList.contains('task-actions__remove'),
         run: () => {
-          const newTasks = tasks.filter(({ id }) => id !== taskId);
+          Task.remove(taskId)
+            .then(newTasks => {
+              this.tasks = newTasks;
+              this.$taskCount.innerHTML = `<b>${countActiveTasks(
+                this.tasks)}</b> Tasks left`;
 
-          storageService.set(newTasks);
-          this.tasks = newTasks;
-          this.$listBlock.removeChild($task);
-        }
+              if (newTasks.length) {
+                this.$listBlock.removeChild($task);
+              } else {
+                const text = `You haven't any ${status === 'all' ? '' : status} tasks.`;
+                this.$listBlock.innerHTML = `<h2 class="no-tasks">${text}</h2>`;
+              }
+            })
+            .catch(({ message }) => {
+            // TODO: implement popup to show error message
+              alert(message);
+            });
+        },
       },
       edit: {
         isCurrent: target.classList.contains('task-actions__edit'),
-        run: () => {
-          const taskObj = tasks.find(({ id }) => id === taskId);
-
-          modalController.open(this.onEditTask($task), taskObj);
-        }
+        run: () => modalController.open(this.onEditTask($task, taskIndex),
+          tasks[taskIndex]),
       },
       changeStatus: {
         isCurrent: target.type === 'checkbox',
         run: () => {
           const isChecked = target.checked;
-          const taskIndex = tasks.findIndex(({ id }) => id === taskId);
-          const task = this.tasks[taskIndex];
+          const taskObj = this.tasks[taskIndex];
+          const status = isChecked ? taskStatuses.completed : taskStatuses.opened;
+          const task = new Task({ ...taskObj, status });
 
-          if (isChecked) {
-            task.status = filterButtonsClasses.completed;
-            $task.classList.add(filterButtonsClasses.completed);
-            $task.classList.remove(filterButtonsClasses.opened);
-          } else {
-            task.status = filterButtonsClasses.opened;
-            $task.classList.remove(filterButtonsClasses.completed);
-            $task.classList.add(filterButtonsClasses.opened);
-          }
+          task.save()
+            .then(({ task }) => {
+              if (isChecked) {
+                $task.classList.add(taskStatuses.completed);
+                $task.classList.remove(taskStatuses.opened);
+              } else {
+                $task.classList.remove(taskStatuses.completed);
+                $task.classList.add(taskStatuses.opened);
+              }
 
-          this.tasks[taskIndex] = task;
-          storageService.set(this.tasks);
-        }
+              this.tasks[taskIndex] = task;
+              this.$listBlock.innerHTML = '';
+              this.renderTasks();
+            })
+            .catch(({ message }) => {
+            // TODO: implement popup to show error message
+              alert(message);
+            });
+        },
       },
     };
+
     const action = Object.values(taskActions).find(({ isCurrent }) => isCurrent);
 
     if (action) {
       action.run();
+    }
+  }
+
+  renderTasks () {
+    const { status, type, text } = this.filtersState;
+    const filteredTasks = this.tasks
+      .filter(task => {
+        // Find tasks which satisfy the filter params
+        if (
+          (status !== 'all' && task.status !== status)
+          || (type !== 'all' && task.type !== type)
+          || (text && task.title.toLowerCase().indexOf(text.toLowerCase()) === -1
+            && task.description.toLowerCase().indexOf(text.toLowerCase()) === -1)
+        ) {
+          return false;
+        }
+
+        return true;
+      });
+    const tasks = sortTasks(filteredTasks);
+
+    this.$taskCount.innerHTML = `<b>${countActiveTasks(
+      this.tasks)}</b> Tasks left`;
+
+    if (tasks.length) {
+      tasks.forEach(taskObj => {
+        const $taskItem = this.createTaskElement(taskObj);
+        this.$listBlock.appendChild($taskItem);
+      });
+    } else {
+      const text = `You haven't any ${status === 'all' ? '' : status} tasks.`;
+      this.$listBlock.innerHTML = `<h2 class="no-tasks">${text}</h2>`;
     }
   }
 }
