@@ -1,5 +1,4 @@
 import modalController from '../modal';
-import storageService from '../localStorage/localStorageService';
 import { capitalize, debounce, countActiveTasks, sortTasks } from '../utils';
 import { taskStatuses } from '../task/constants';
 import {
@@ -165,23 +164,28 @@ class TaskList {
         modalController.open(this.onCreateTask);
       }
 
-      if (target.classList.contains(finishAllButtonClass)) {
-        const finishedTasks = this.tasks.map(task => ({
-          ...task,
-          status: filterButtonsClasses.completed,
-        }));
-
-        storageService.set(finishedTasks);
-        this.tasks = finishedTasks;
-        this.$listBlock.innerHTML = '';
-        this.renderTasks();
+      if (target.classList.contains(finishAllButtonClass)) {        
+        Task.finishAll()
+          .then(data => data.map(({ task }) => task))
+          .then(tasks => {
+            this.tasks = tasks;
+            this.$listBlock.innerHTML = '';
+            this.renderTasks();
+          });
       }
 
       if (target.classList.contains(removeAllButtonClass)) {
-        storageService.clear();
-        this.tasks = [];
-        this.$listBlock.innerHTML = '';
-        this.renderTasks();
+        Task.removeAll()
+          .then(res => {
+            this.tasks = res;
+            this.$listBlock.innerHTML = '';
+            this.renderTasks();
+          })
+          .catch(({ message }) => {
+            // TODO: implement popup to show error message
+            alert(message);
+          });
+        
       }
     }
   }
@@ -252,19 +256,23 @@ class TaskList {
       remove: {
         isCurrent: target.classList.contains('task-actions__remove'),
         run: () => {
-          const newTasks = tasks.filter(({ id }) => id !== taskId);
+          Task.remove(taskId)
+            .then(newTasks => {
+              this.tasks = newTasks;
+              this.$taskCount.innerHTML = `<b>${countActiveTasks(
+                this.tasks)}</b> Tasks left`;
 
-          storageService.set(newTasks);
-          this.tasks = newTasks;
-          this.$taskCount.innerHTML = `<b>${countActiveTasks(
-            this.tasks)}</b> Tasks left`;
-
-          if (newTasks.length) {
-            this.$listBlock.removeChild($task);
-          } else {
-            const text = `You haven't any ${status === 'all' ? '' : status} tasks.`;
-            this.$listBlock.innerHTML = `<h2 class="no-tasks">${text}</h2>`;
-          }
+              if (newTasks.length) {
+                this.$listBlock.removeChild($task);
+              } else {
+                const text = `You haven't any ${status === 'all' ? '' : status} tasks.`;
+                this.$listBlock.innerHTML = `<h2 class="no-tasks">${text}</h2>`;
+              }
+            })
+            .catch(({ message }) => {
+            // TODO: implement popup to show error message
+              alert(message);
+            });
         },
       },
       edit: {

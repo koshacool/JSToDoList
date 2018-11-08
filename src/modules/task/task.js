@@ -38,6 +38,47 @@ class Task {
     });
   }
 
+  static remove (taskId) {
+    const tasks = storageService.get();
+    const newTasks = tasks.filter(({ id }) => id !== taskId);
+
+    return new Promise((resolve, reject) => {
+      try {        
+        storageService.set(newTasks);
+        resolve(newTasks);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  static removeAll () {
+    return new Promise((resolve, reject) => {
+      try {        
+        storageService.clear();
+        resolve([]);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+
+
+  static finishAll () {    
+    const tasks = storageService.get();
+    const savePromises = tasks.map(task => {
+      const newTask = new Task({
+        ...task,
+        status: taskStatuses.completed,
+      });
+
+      return newTask.save();            
+    });
+
+    return Promise.all(savePromises);
+  }
+
 
   static validateField (name, value) {
     if (
