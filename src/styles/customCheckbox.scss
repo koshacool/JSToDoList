@@ -1,6 +1,9 @@
-$checkboxSize: 20px;
+@import './scripts/variables/variables';
 
-/* The container */
+$checkboxSize: 20px;
+$hoverBorderColor: rgba(0, 0, 0, .5);
+$checkboxBorderColor: rgba(0, 0, 0, .2);
+
 .checkbox-container {
   display: block;
   position: relative;
@@ -16,18 +19,20 @@ $checkboxSize: 20px;
     height: 0;
   }
 
+  // sass-lint:disable-block  force-element-nesting
   &:hover input ~ .checkmark {
-    border: 1px solid rgba(0, 0, 0, .5);
-    background-color: #EEEEEE;
+    border: 1px solid $hoverBorderColor;
+    background-color: $lightGrey;
 
-    &:after {
+
+    &::after {
       display: block;
       opacity: .3;
     }
   }
 
   input:checked ~ .checkmark {
-    &:after {
+    &::after {
       display: block;
       opacity: 1;
     }
@@ -38,21 +43,21 @@ $checkboxSize: 20px;
     top: 0;
     left: 0;
     margin-left: 10px;
-    border: 1px solid rgba(0, 0, 0, .2);
+    border: 1px solid $checkboxBorderColor;
     width: $checkboxSize;
     height: $checkboxSize;
 
-    &:after {
+    &::after {
       display: none;
       position: absolute;
       top: -8px;
       left: 9px;
       transform: rotate(45deg);
-      border: solid #000000;
+      border: 1px solid $black;
       border-width: 0 3px 3px 0;
       width: 5px;
       height: 25px;
-      content: "";
+      content: '';
       -ms-transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
     }

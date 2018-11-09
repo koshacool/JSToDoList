@@ -1,7 +1,6 @@
-@import './scripts/constants/constants';
-@import './scripts/mixins/flexbox';
-@import './scripts/mixins/borders';
-@import './customCheckbox';
+@import '../../styles/scripts/variables/variables';
+@import '../../styles/scripts/mixins/flexbox';
+@import '../../styles/customCheckbox';
 
 .task-list-container {
   @include layout-type(column, nowrap);
@@ -26,23 +25,25 @@
     width: 100%;
     max-width: 500px;
 
-    .button, .task-types {
+    .button,
+    .task-types {
       font-size: 10px;
     }
 
     .button {
       margin-left: -4px;
 
-      &:hover, &.active:hover  {
-        border-color: #1E7E34;
-        background-color: #218838;
-        color: #FFFFFF;
+      &:hover,
+      &.active:hover  {
+        border-color: $green;
+        background-color: $green;
+        color: $white;
       }
 
       &.active {
-        border-color: #28A745;
-        background-color: #28A745;
-        color: #FFFFFF;
+        border-color: $greenLigth;
+        background-color: $greenLigth;
+        color: $white;
       }
     }
 
@@ -84,7 +85,7 @@
 
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0, 0, 0, .1);
+      border-bottom: 1px solid $borderColor;
       width: 100%;
       min-height: 90px;
 
