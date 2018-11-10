@@ -1,7 +1,14 @@
 @import '../../styles/scripts/variables/variables';
+@import '../../styles/scripts/mixins/media';
+@import '../../styles/scripts/mixins/borders';
+@import '../../styles/scripts/functions/sizeToLessSize';
 
 $animationDuration: .4s;
 $backgroundColor: rgba(0, 0, 0, .4);
+$headerPadding: 15px;
+$modalBodyPaddingTopBottom: 25px;
+$modalBodyPaddingRightLeft: 50px;
+$modalFooterPadding: 15px;
 
 @keyframes fadeIn {
   from {
@@ -42,8 +49,14 @@ $backgroundColor: rgba(0, 0, 0, .4);
     color: $black;
 
     .modal-header {
-      border-bottom: 1px solid $borderColor;
-      padding: 15px;
+      @include if-little-screen {
+        padding-top: sizeToLessSize($headerPadding);
+        padding-bottom: sizeToLessSize($headerPadding);
+        font-size: sizeToLessSize($defaultFontSize);
+      }
+      @include border($borderColor);
+
+      padding: $headerPadding;
 
       .close {
         float: right;
@@ -60,7 +73,10 @@ $backgroundColor: rgba(0, 0, 0, .4);
     }
 
     .modal-body {
-      padding: 25px 50px;
+      @include if-little-screen {
+        padding: sizeToLessSize($modalBodyPaddingTopBottom) sizeToLessSize($modalBodyPaddingRightLeft);
+      }
+      padding: $modalBodyPaddingTopBottom $modalBodyPaddingRightLeft;
 
       label {
         display: inline-block;
@@ -77,8 +93,12 @@ $backgroundColor: rgba(0, 0, 0, .4);
     }
 
     .modal-footer {
-      border-top: 1px solid $borderColor;
-      padding: 15px;
+      @include if-little-screen {
+        padding: sizeToLessSize($modalFooterPadding);
+      }
+      @include border($borderColor);
+
+      padding: $modalFooterPadding;
       text-align: right;
     }
   }

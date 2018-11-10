@@ -1,15 +1,28 @@
 @import './scripts/variables/variables';
+@import './scripts/mixins/borders';
+@import './scripts/mixins/media';
+@import './scripts/functions/sizeToLessSize';
 
 $checkboxSize: 20px;
 $hoverBorderColor: rgba(0, 0, 0, .5);
 $checkboxBorderColor: rgba(0, 0, 0, .2);
+$containerPaddingLeft: 50px;
+$afterTop: -8px;
+$afterLeft: 9px;
+$afterWidth: 5px;
+$afterHeight: 25px;
+$afterBorderSize: 3px;
 
 .checkbox-container {
+  @include if-little-screen {
+    padding-left: sizeToLessSize($containerPaddingLeft) + 5px;
+  }
+
   display: block;
   position: relative;
   margin-bottom: 12px;
   cursor: pointer;
-  padding-left: 50px;
+  padding-left: $containerPaddingLeft;
 
   input {
     position: absolute;
@@ -21,9 +34,9 @@ $checkboxBorderColor: rgba(0, 0, 0, .2);
 
   // sass-lint:disable-block  force-element-nesting
   &:hover input ~ .checkmark {
-    border: 1px solid $hoverBorderColor;
-    background-color: $lightGrey;
+    @include border($hoverBorderColor);
 
+    background-color: $lightGrey;
 
     &::after {
       display: block;
@@ -39,27 +52,41 @@ $checkboxBorderColor: rgba(0, 0, 0, .2);
   }
 
   .checkmark {
+    @include border($checkboxBorderColor);
+    @include if-little-screen {
+      margin-left: sizeToLessSize(10px);
+      width: sizeToLessSize($checkboxSize);
+      height: sizeToLessSize($checkboxSize);
+    }
+
     position: absolute;
     top: 0;
     left: 0;
     margin-left: 10px;
-    border: 1px solid $checkboxBorderColor;
     width: $checkboxSize;
     height: $checkboxSize;
 
     &::after {
+      @include border($black);
+      @include if-little-screen {
+        top: sizeToLessSize($afterTop);
+        left: sizeToLessSize($afterLeft);
+        border-width: 0 sizeToLessSize($afterBorderSize) sizeToLessSize($afterBorderSize) 0;
+        width: sizeToLessSize($afterWidth);
+        height: sizeToLessSize($afterHeight);
+      }
+
       display: none;
       position: absolute;
-      top: -8px;
-      left: 9px;
+      top: $afterTop;
+      left: $afterLeft;
       transform: rotate(45deg);
-      border: 1px solid $black;
-      border-width: 0 3px 3px 0;
-      width: 5px;
-      height: 25px;
+      border-width: 0 $afterBorderSize $afterBorderSize 0;
+      width: $afterWidth;
+      height: $afterHeight;
       content: '';
-      -ms-transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
     }
   }
 }

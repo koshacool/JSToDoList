@@ -1,6 +1,23 @@
 @import '../../styles/scripts/variables/variables';
+@import '../../styles/scripts/mixins/media';
 @import '../../styles/scripts/mixins/flexbox';
+@import '../../styles/scripts/functions/sizeToLessSize';
 @import '../../styles/customCheckbox';
+
+$actionsMarginTop: 30px;
+$actionsMarginBotom: 10px;
+$filterPadingBottom: 40px;
+$filtersFontSize: 10px;
+$tasksCountBottom: -20px;
+$tasksCountLeft: 15px;
+$fontSize: 11px;
+$searchMarginBottom: 15px;
+$taskItemMihHeight: 90px;
+$taskTitleFontSize: 20px;
+$taskTitleMargin: 10px;
+$taskActionMarginRight: 20px;
+$taskActionButtonMarginLeft: $taskActionMarginRight / 2;
+$taskActionButtonFontSize: 30px;
 
 .task-list-container {
   @include layout-type(column, nowrap);
@@ -9,7 +26,11 @@
   height: 100vh;
 
   .main-page__actions {
-    margin: 30px 0 10px;
+    @include if-little-screen {
+      margin-top: sizeToLessSize($actionsMarginTop);
+    }
+
+    margin: $actionsMarginTop 0 $actionsMarginBotom;
 
     .button {
       margin-left: -4px;
@@ -18,23 +39,30 @@
 
   .filters {
     @include layout-type(row, wrap);
+    @include if-little-screen {
+      padding-bottom: sizeToLessSize($filterPadingBottom);
+    }
 
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 40px;
+    padding-bottom: $filterPadingBottom;
     width: 100%;
     max-width: 500px;
 
     .button,
     .task-types {
-      font-size: 10px;
+      @include if-little-screen {
+        font-size: sizeToLessSize($filtersFontSize);
+      }
+
+      font-size: $filtersFontSize;
     }
 
     .button {
       margin-left: -4px;
 
       &:hover,
-      &.active:hover  {
+      &.active:hover {
         border-color: $green;
         background-color: $green;
         color: $white;
@@ -55,16 +83,26 @@
       position: relative;
 
       .tasks-count {
+        @include if-little-screen {
+          bottom: sizeToLessSize($tasksCountBottom);
+          left: sizeToLessSize($tasksCountLeft);
+          font-size: sizeToLessSize($fontSize);
+        }
         position: absolute;
-        bottom: -15px;
-        left: 15px;
-        font-size: 11px;
+        bottom: $tasksCountBottom;
+        left: $tasksCountLeft;
+        font-size: $fontSize;
+        font-style: italic;
       }
     }
   }
 
   .search {
-    margin-bottom: 15px;
+    @include if-little-screen {
+      margin-bottom: sizeToLessSize($searchMarginBottom);
+    }
+
+    margin-bottom: $searchMarginBottom;
     width: 100%;
     max-width: 500px;
   }
@@ -81,13 +119,16 @@
     }
 
     .task-item {
-      @include layout-type(row, wrap);
+      @include layout-type(row, no-wrap);
+      @include if-little-screen {
+        min-height: sizeToLessSize($taskItemMihHeight);
+      }
 
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid $borderColor;
       width: 100%;
-      min-height: 90px;
+      min-height: $taskItemMihHeight;
 
       &.completed {
         .task-text {
@@ -103,25 +144,52 @@
 
     .task-text {
       flex: 1;
+      min-width: 100px;
 
       .task-text__title {
-        margin: 10px 0;
-        font-size: 20px;
+        @include if-little-screen {
+          margin: sizeToLessSize($taskTitleMargin) 0;
+          font-size: sizeToLessSize($taskTitleFontSize);
+        }
+
+        margin: $taskTitleMargin 0;
+        font-size: $taskTitleFontSize;
         font-weight: 600;
       }
 
       .task-text__description {
-        font-size: 14px;
+        @include if-little-screen {
+          font-size: sizeToLessSize($defaultFontSize);
+        }
+
+        font-size: $defaultFontSize;
       }
     }
 
     .task-actions {
-      margin-right: 20px;
+      @include if-little-screen {
+        margin-right: sizeToLessSize($taskActionMarginRight);
+      }
+
+      margin-right: $taskActionMarginRight;
 
       .task-actions__button {
-        margin-right: 10px;
+        @include if-little-screen {
+          margin-left: sizeToLessSize($taskActionButtonMarginLeft);
+          font-size: sizeToLessSize($taskActionButtonFontSize);
+        }
+
+        margin-left: $taskActionButtonMarginLeft;
         cursor: pointer;
-        font-size: 30px;
+        padding: 5px;
+        font-size: $taskActionButtonFontSize;
+
+        &:hover,
+        &:focus {
+          border-radius: 4px;
+          background-color: $black;
+          color: $white;
+        }
       }
     }
   }
