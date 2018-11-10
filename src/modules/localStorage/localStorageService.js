@@ -2,14 +2,11 @@ const TASKS_DB_NAME = 'localstorageTasks';
 
 class LocalStorageService {
   constructor () {
-    let tasks = JSON.parse(localStorage.getItem(TASKS_DB_NAME));
+    const tasks = JSON.parse(localStorage.getItem(TASKS_DB_NAME));
 
     if (!tasks) {
-      tasks = [];
-      localStorage.setItem(TASKS_DB_NAME, JSON.stringify(tasks));
+      localStorage.setItem(TASKS_DB_NAME, JSON.stringify([]));
     }
-
-    this.tasks = tasks;
   }
 
   get () {
