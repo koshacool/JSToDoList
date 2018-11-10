@@ -1,31 +1,48 @@
 @import './scripts/variables/variables';
+@import './scripts/mixins/borders';
+@import './scripts/mixins/media';
+@import './scripts/functions/sizeToLessSize';
 
-$defaultTransition: .2s;
+$defaultTransitionDuration: .2s;
 $scrollWidth: 6px;
 $scrollTrackBorderRadius: 2.5px;
 $scrollThumbBorderRadius: 10px;
 $scrollBackGround: rgba(9, 9, 9, .1);
 $scrollBackGroundHover: rgba(0, 0, 0, .2);
 
+$borderRadius: 4px;
+$paddingTopBottom: 6px;
+$paddingRightLeft: 12px;
+
 body {
-  transition: all .2s;
+  @include if-little-screen {
+    font-size: sizeToLessSize($defaultFontSize);
+  }
+
+  transition: all $defaultTransitionDuration;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
+  font-size: $defaultFontSize;
   box-sizing: border-box;
 
   input,
   textarea,
   select {
+    @include border($grey);
+    @include if-little-screen {
+      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
+      font-size: sizeToLessSize($defaultFontSize);
+    }
+
     display: block;
-    border: 1px solid $grey;
-    border-radius: 4px;
+    border-radius: $borderRadius;
     box-shadow: inset 0 1px 1px $inputBoxShadow;
     background-color: $white;
     background-image: none;
-    padding: 6px 12px;
+    padding: $paddingTopBottom $paddingRightLeft;
     line-height: 1.4;
     color: $dark;
-    font-size: 14px;
+    font-size: $defaultFontSize;
     box-sizing: border-box;
 
     &.validation-error {
@@ -34,30 +51,35 @@ body {
   }
 
   .button {
+    @include border($borderColor);
+    @include if-little-screen {
+      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
+      font-size: sizeToLessSize($defaultFontSize);
+    }
+
     display: inline-block;
     margin-bottom: 0;
-    border: 1px solid $borderColor;
-    border-radius: 4px;
+    border-radius: $borderRadius;
     background-color: $white;
     background-image: none;
     cursor: pointer;
-    padding: 6px 12px;
+    padding: $paddingTopBottom $paddingRightLeft;
     vertical-align: middle;
     text-align: center;
     text-transform: uppercase;
     line-height: 1.4;
     white-space: nowrap;
-    font-size: 14px;
+    font-size: $defaultFontSize;
     font-weight: 400;
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    -webkit-user-select: none;
-    user-select: none;
-    -ms-user-select: none;
     -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
 
     &:hover {
-      border: 1px solid $actoveBorderColor;
+      @include border($actoveBorderColor);
       background-color: $hoverButtonBackgroundColor;
     }
 
@@ -66,7 +88,6 @@ body {
     }
   }
 }
-
 
 // ScrollBar styles
 /* width */
