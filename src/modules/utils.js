@@ -19,7 +19,7 @@ export const debounce = (func, delay = 300) => {
   };
 };
 
-const sort = (a, b) => {
+export const compareTasks = (a, b) => {
   if (a.updatedAt < b.updatedAt) {
     return 1;
   }
@@ -43,7 +43,7 @@ export const sortTasks = tasksArr => {
     }
   });
 
-  return  [...openedTasks.sort(sort), ...complitedTasks.sort(sort)];
+  return  [...openedTasks.sort(compareTasks), ...complitedTasks.sort(compareTasks)];
 };
 
 

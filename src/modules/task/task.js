@@ -38,7 +38,6 @@ class Task {
   }
 
   static remove (taskId) {
-
     return new Promise((resolve, reject) => {
       try {    
         const tasks = storageService.get();
