@@ -1,6 +1,8 @@
-import Task from './task/task';
-import { taskTypes } from './task/constants';
-import alertService from './alert/alert';
+import Task from '../task/task';
+import { taskTypes } from '../task/constants';
+import alertService from '../alert/alert';
+
+import './styles.scss';
 
 
 const ERROR_CLASS_NAME = 'validation-error';
@@ -62,12 +64,12 @@ class FormModal {
     $formBlock.id = 'task-form';
     $formBlock.innerHTML = `
       <div class="form-group">
-        <label for="title"><i class="fa fa-car"></i> Title</label>
+        <label for="title">Title</label>
         <input type="text" class="form-input" id="title" 
           name="title" placeholder="Enter title" value=${title}>
       </div>
       <div class="form-group">
-        <label for="description"><i class="fa fa-car"></i> Description</label>
+        <label for="description">Description</label>
         <textarea rows="4" cols="100" name="description" form="task-form" 
           name="description" id="description">
           ${description}
@@ -115,7 +117,7 @@ class FormModal {
     const $typesBlock = document.createElement('div');
     $typesBlock.className = 'form-group';
     $typesBlock.innerHTML = `
-      <label for="type"><i class="fa fa-car"></i> Task Type</label>
+      <label for="type">Task Type</label>
     `;
 
     const $select = document.createElement('select');
@@ -181,9 +183,9 @@ class FormModal {
           const { name } = formInputs[i];
 
           this.highlightInput(formInputs[i], notValidFields[name]);
-         
+
         }
-        
+
         alertService.showError(error);
       });
   }

@@ -1,36 +1,95 @@
-@import './modal.scss';
-@import './main.scss';
+@import './scripts/variables/variables';
+@import './scripts/mixins/borders';
+@import './scripts/mixins/media';
+@import './scripts/functions/sizeToLessSize';
 
-body {
-  overflow: hidden;
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
-}
-
-input, textarea, select {
-        display: block;
-        border: 1px solid #CCCCCC;
-        border-radius: 4px;
-        box-shadow: inset 0 1px 1px rgba(0, 0, 0, .07);
-        background-color: #FFFFFF;
-        background-image: none;
-        padding: 6px 12px;
-               line-height: 1.42857143;
-        color: #555555;
-        font-size: 14px;
-        box-sizing: border-box;
-
-        &.validation-error {
-          border-color: #FF4304;
-        }
-}
-
-$defaultTransition: .2s;
+$defaultTransitionDuration: .2s;
 $scrollWidth: 6px;
 $scrollTrackBorderRadius: 2.5px;
 $scrollThumbBorderRadius: 10px;
+$scrollBackGround: rgba(9, 9, 9, .1);
+$scrollBackGroundHover: rgba(0, 0, 0, .2);
 
+$borderRadius: 4px;
+$paddingTopBottom: 6px;
+$paddingRightLeft: 12px;
 
+body {
+  @include if-little-screen {
+    font-size: sizeToLessSize($defaultFontSize);
+  }
+
+  transition: all $defaultTransitionDuration;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  font-size: $defaultFontSize;
+  box-sizing: border-box;
+
+  input,
+  textarea,
+  select {
+    @include border($grey);
+    @include if-little-screen {
+      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
+      font-size: sizeToLessSize($defaultFontSize);
+    }
+
+    display: block;
+    border-radius: $borderRadius;
+    box-shadow: inset 0 1px 1px $inputBoxShadow;
+    background-color: $white;
+    background-image: none;
+    padding: $paddingTopBottom $paddingRightLeft;
+    line-height: 1.4;
+    color: $dark;
+    font-size: $defaultFontSize;
+    box-sizing: border-box;
+
+    &.validation-error {
+      border-color: $red;
+    }
+  }
+
+  .button {
+    @include border($borderColor);
+    @include if-little-screen {
+      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
+      font-size: sizeToLessSize($defaultFontSize);
+    }
+
+    display: inline-block;
+    margin-bottom: 0;
+    border-radius: $borderRadius;
+    background-color: $white;
+    background-image: none;
+    cursor: pointer;
+    padding: $paddingTopBottom $paddingRightLeft;
+    vertical-align: middle;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 1.4;
+    white-space: nowrap;
+    font-size: $defaultFontSize;
+    font-weight: 400;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+
+    &:hover {
+      @include border($actoveBorderColor);
+      background-color: $hoverButtonBackgroundColor;
+    }
+
+    &:active {
+      background-color: $actoveBorderColor;
+    }
+  }
+}
+
+// ScrollBar styles
 /* width */
 ::-webkit-scrollbar {
   width: $scrollWidth;
@@ -44,10 +103,10 @@ $scrollThumbBorderRadius: 10px;
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: $scrollThumbBorderRadius;
-  background: rgba(9, 9, 9, .1);
+  background: $scrollBackGround;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: $scrollBackGroundHover;
 }

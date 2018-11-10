@@ -1,12 +1,28 @@
-$checkboxSize: 20px;
+@import './scripts/variables/variables';
+@import './scripts/mixins/borders';
+@import './scripts/mixins/media';
+@import './scripts/functions/sizeToLessSize';
 
-/* The container */
+$checkboxSize: 20px;
+$hoverBorderColor: rgba(0, 0, 0, .5);
+$checkboxBorderColor: rgba(0, 0, 0, .2);
+$containerPaddingLeft: 50px;
+$afterTop: -8px;
+$afterLeft: 9px;
+$afterWidth: 5px;
+$afterHeight: 25px;
+$afterBorderSize: 3px;
+
 .checkbox-container {
+  @include if-little-screen {
+    padding-left: sizeToLessSize($containerPaddingLeft) + 5px;
+  }
+
   display: block;
   position: relative;
   margin-bottom: 12px;
   cursor: pointer;
-  padding-left: 50px;
+  padding-left: $containerPaddingLeft;
 
   input {
     position: absolute;
@@ -16,45 +32,61 @@ $checkboxSize: 20px;
     height: 0;
   }
 
+  // sass-lint:disable-block  force-element-nesting
   &:hover input ~ .checkmark {
-    border: 1px solid rgba(0, 0, 0, .5);
-    background-color: #EEEEEE;
+    @include border($hoverBorderColor);
 
-    &:after {
+    background-color: $lightGrey;
+
+    &::after {
       display: block;
       opacity: .3;
     }
   }
 
   input:checked ~ .checkmark {
-    &:after {
+    &::after {
       display: block;
       opacity: 1;
     }
   }
 
   .checkmark {
+    @include border($checkboxBorderColor);
+    @include if-little-screen {
+      margin-left: sizeToLessSize(10px);
+      width: sizeToLessSize($checkboxSize);
+      height: sizeToLessSize($checkboxSize);
+    }
+
     position: absolute;
     top: 0;
     left: 0;
     margin-left: 10px;
-    border: 1px solid rgba(0, 0, 0, .2);
     width: $checkboxSize;
     height: $checkboxSize;
 
-    &:after {
+    &::after {
+      @include border($black);
+      @include if-little-screen {
+        top: sizeToLessSize($afterTop);
+        left: sizeToLessSize($afterLeft);
+        border-width: 0 sizeToLessSize($afterBorderSize) sizeToLessSize($afterBorderSize) 0;
+        width: sizeToLessSize($afterWidth);
+        height: sizeToLessSize($afterHeight);
+      }
+
       display: none;
       position: absolute;
-      top: -8px;
-      left: 9px;
+      top: $afterTop;
+      left: $afterLeft;
       transform: rotate(45deg);
-      border: solid #000000;
-      border-width: 0 3px 3px 0;
-      width: 5px;
-      height: 25px;
-      content: "";
-      -ms-transform: rotate(45deg);
+      border-width: 0 $afterBorderSize $afterBorderSize 0;
+      width: $afterWidth;
+      height: $afterHeight;
+      content: '';
       -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
     }
   }
 }

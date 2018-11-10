@@ -1,7 +1,8 @@
-import modalController from '../modal';
+import modalController from '../modal/modal';
 import { capitalize, debounce, countActiveTasks, sortTasks } from '../utils';
 import { taskStatuses } from '../task/constants';
 import alertService from '../alert/alert';
+import Task from '../task/task';
 import {
   mainActionsBlockId,
   countBlockId,
@@ -14,7 +15,8 @@ import {
   filterButtonsBlockId,
   filterButtonsClasses,
 } from './constants';
-import Task from '../task/task';
+
+import './styles.scss';
 
 class TaskList {
   constructor (tasks) {
@@ -165,7 +167,7 @@ class TaskList {
         modalController.open(this.onCreateTask);
       }
 
-      if (target.classList.contains(finishAllButtonClass)) {        
+      if (target.classList.contains(finishAllButtonClass)) {
         Task.finishAll()
           .then(data => data.map(({ task }) => task))
           .then(tasks => {
@@ -187,7 +189,7 @@ class TaskList {
             alertService.showSuccess('All tasks succefully removed.');
           })
           .catch(alertService.showError);
-        
+
       }
     }
   }

@@ -1,0 +1,107 @@
+@import '../../styles/scripts/variables/variables';
+@import '../../styles/scripts/mixins/media';
+@import '../../styles/scripts/mixins/borders';
+@import '../../styles/scripts/functions/sizeToLessSize';
+
+$animationDuration: .4s;
+$backgroundColor: rgba(0, 0, 0, .4);
+$headerPadding: 15px;
+$modalBodyPaddingTopBottom: 25px;
+$modalBodyPaddingRightLeft: 50px;
+$modalFooterPadding: 15px;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 10;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  animation-name: fadeIn;
+  animation-duration: $animationDuration;
+  z-index: 10;
+  background-color: $backgroundColor;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  -webkit-animation-duration: $animationDuration;
+  -webkit-animation-name: fadeIn;
+
+  .form-group {
+    margin-bottom: 15px;
+  }
+
+  .modal-content {
+    position: relative;
+    bottom: 0;
+    margin: 10px;
+    border-radius: 6px;
+    background-color: $white;
+    width: auto;
+    color: $black;
+
+    .modal-header {
+      @include if-little-screen {
+        padding-top: sizeToLessSize($headerPadding);
+        padding-bottom: sizeToLessSize($headerPadding);
+        font-size: sizeToLessSize($defaultFontSize);
+      }
+      @include border($borderColor);
+
+      padding: $headerPadding;
+
+      .close {
+        float: right;
+        opacity: .2;
+        font-size: 28px;
+        font-weight: bold;
+
+        &:hover {
+          opacity: 1;
+          cursor: pointer;
+          text-decoration: none;
+        }
+      }
+    }
+
+    .modal-body {
+      @include if-little-screen {
+        padding: sizeToLessSize($modalBodyPaddingTopBottom) sizeToLessSize($modalBodyPaddingRightLeft);
+      }
+      padding: $modalBodyPaddingTopBottom $modalBodyPaddingRightLeft;
+
+      label {
+        display: inline-block;
+        margin-bottom: 5px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+      }
+    }
+
+    .modal-footer {
+      @include if-little-screen {
+        padding: sizeToLessSize($modalFooterPadding);
+      }
+      @include border($borderColor);
+
+      padding: $modalFooterPadding;
+      text-align: right;
+    }
+  }
+}
+
+

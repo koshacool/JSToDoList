@@ -6,6 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config ./webpack/webpack.dev.js --mode=development --host 0.0.0.0 --port 8080",
     "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
     "build": "webpack --mode=production -p --config ./webpack/webpack.dev.js",
     "lint": "eslint ./src",
     "lint:fix": "eslint --fix ./src",

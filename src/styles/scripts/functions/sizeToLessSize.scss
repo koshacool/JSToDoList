@@ -1,0 +1,5 @@
+$littleScreenSizesDevider: 1.6;
+
+@function sizeToLessSize($value) {
+  @return $value / $littleScreenSizesDevider;
+};
