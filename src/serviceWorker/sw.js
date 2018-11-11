@@ -2,10 +2,7 @@ const CACHE_NAME = 'network-or-cache-v1';
 
 // eslint-disable-next-line no-undef
 const { assets } = serviceWorkerOption;
-const assetsToCache = [...assets, './', './sw.js'];
-const urlsToCache = assetsToCache.map(path => {
-  return new URL(path, global.location).toString();
-});
+const urlsToCache = [...assets.map(value => `.${value}`), './'];
 
 self.addEventListener('install', event => event.waitUntil(
   caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
