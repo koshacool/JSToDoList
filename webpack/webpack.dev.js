@@ -5,7 +5,6 @@ const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 module.exports = (env, { mode }) => {
   const devMode = mode !== 'production';
-  console.log(__dirname)
   const config = {
     mode,
     entry: [
