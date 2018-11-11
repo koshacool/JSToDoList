@@ -6,7 +6,7 @@ export const registerServiceWorker = NODE_ENV => {
     if (NODE_ENV === 'development') {
       runtime.register();
     } else {
-      navigator.serviceWorker.register('./sw.js');
+      navigator.serviceWorker.register('/sw.js');
     }
   }
 };
