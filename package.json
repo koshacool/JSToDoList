@@ -66,5 +66,6 @@
     "moduleDirectories": [
       "node_modules"
     ]
-  }
+  },
+  "dependencies": {}
 }
