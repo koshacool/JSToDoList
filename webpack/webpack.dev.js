@@ -1,10 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = (env, { mode }) => {
   const devMode = mode !== 'production';
+  console.log(__dirname);
   const config = {
     mode,
     entry: [
@@ -51,9 +52,10 @@ module.exports = (env, { mode }) => {
       new MiniCssExtractPlugin({
         filename: 'styles.css'
       }),
-      new ServiceWorkerWebpackPlugin({
-        entry: path.join(__dirname, '../src/serviceWorker/sw.js'),
-      }),
+      new WorkboxPlugin.GenerateSW({
+        clientsClaim: true,
+        skipWaiting: true
+      })
     ],
     devServer: {
       contentBase: path.join(__dirname, '../'),
