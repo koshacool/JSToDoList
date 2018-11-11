@@ -1,12 +1,12 @@
+import runtime from 'serviceworker-webpack-plugin/lib/runtime';
 
-export const registerServiceWorker = () => {
+
+export const registerServiceWorker = NODE_ENV => {
   if ('serviceWorker' in navigator) {
     if (NODE_ENV === 'development') {
       runtime.register();
     } else {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js');
-      });
+      navigator.serviceWorker.register('/ToDoList/sw.js');
     }
   }
 };

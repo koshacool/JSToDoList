@@ -5,7 +5,7 @@ import { registerServiceWorker } from './serviceWorker/registerServiceWorker';
 import './styles/index.scss';
 
 
-registerServiceWorker();
+registerServiceWorker(process.env.NODE_ENV);
 document.addEventListener('DOMContentLoaded', () => {
   const tasks = storageService.get();
   new TaskList(tasks);
