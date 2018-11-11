@@ -1,8 +1,12 @@
 
 export const registerServiceWorker = () => {
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js');
-    });
+    if (NODE_ENV === 'development') {
+      runtime.register();
+    } else {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js');
+      });
+    }
   }
 };

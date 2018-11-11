@@ -4,7 +4,6 @@ const CACHE_NAME = 'network-or-cache-v1';
 const { assets } = serviceWorkerOption;
 const urlsToCache = [...assets, '/'];
 
-
 self.addEventListener('install', event => event.waitUntil(
   caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
 ));
