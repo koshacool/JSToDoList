@@ -1,7 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = (env, { mode }) => {
   const devMode = mode !== 'production';
@@ -51,16 +51,7 @@ module.exports = (env, { mode }) => {
       new MiniCssExtractPlugin({
         filename: 'styles.css'
       }),
-      new ServiceWorkerWebpackPlugin({
-        entry: path.join(__dirname, '../src/serviceWorker/sw.js'),
-        excludes: [
-          '**/.*',
-          '**/*.map',
-          '*.html',
-        ],
-        filename: 'sw.js',
-        publicPath: '/ToDoList/'
-      }),
+      new WorkboxPlugin.GenerateSW()
     ],
     devServer: {
       contentBase: path.join(__dirname, '../'),
