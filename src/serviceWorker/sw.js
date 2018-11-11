@@ -5,6 +5,7 @@ const { assets } = serviceWorkerOption;
 const urlsToCache = [
   ...assets,
   './',
+  './sw.js'
 ];
 
 self.addEventListener('install', event => event.waitUntil(
