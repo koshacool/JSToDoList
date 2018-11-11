@@ -1,12 +1,11 @@
-const { 
+import { 
   generateId, 
   capitalize, 
   debounce, 
   countActiveTasks,
   compareTasks,
   sortTasks,
-} = require(
-  './utils');
+} from './utils';
 
 
 describe('Util functions tests::', () => {
