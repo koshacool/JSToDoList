@@ -1,6 +1,6 @@
 self.__precacheManifest = [
   {
-    "revision": "b969ef2d949fbccb5e25",
+    "revision": "6812d2dd4d5dbf773e21",
     "url": "styles.css"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = [
     "url": "index.html"
   },
   {
-    "revision": "b969ef2d949fbccb5e25",
+    "revision": "6812d2dd4d5dbf773e21",
     "url": "bundle.js"
   }
 ];
