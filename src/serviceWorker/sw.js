@@ -1,11 +1,13 @@
+const { NODE_ENV } = process.env;
+const urlPath = NODE_ENV === 'production' ? './ToDoList/' : './';
 const CACHE_NAME = 'network-or-cache-v1';
 
 // eslint-disable-next-line no-undef
 const { assets } = serviceWorkerOption;
 const urlsToCache = [
   ...assets,
-  './',
-  './sw.js'
+  urlPath,
+  `${urlPath}sw.js`,
 ];
 
 self.addEventListener('install', event => event.waitUntil(
