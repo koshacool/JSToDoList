@@ -58,6 +58,14 @@ Please read [CONTRIBUTING.md](contributing.md) for details on our code of conduc
 
 * **[Mockflow service](https://wireframepro.mockflow.com/view/M9d1625f8b26756fe401a6b8fa81b3d8a1539193727361#/page/477987137bbc45fb9c42e2f0a9fff10f)**
 
+### Issue template
+
+* **[template](.github/ISSUE_TEMPLATE/bug.md)**
+
+### Pull Request
+
+* **[template](.github/PULL_REQUEST_TEMPLATE.md)**
+
 ### Additional links
 
 [FRONT-CAMP “facebook” page](https://www.facebook.com/groups/270300106928894/)
