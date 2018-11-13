@@ -60,11 +60,12 @@ Please read [CONTRIBUTING.md](contributing.md) for details on our code of conduc
 
 ### Issue template
 
-* **[Issue template](.github/ISSUE_TEMPLATE/bug.md)**
+* **[template](.github/ISSUE_TEMPLATE/bug.md)**
 
 ### Pull Request
 
-* **[Issue template](.github/PULL_REQUEST_TEMPLATE.md)**
+* **[template](.github/PULL_REQUEST_TEMPLATE.md)**
+
 
 ### Additional links
 
