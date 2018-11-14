@@ -49,10 +49,9 @@ $modalFooterPadding: 15px;
     color: $black;
 
     .modal-header {
-      @include if-little-screen {
+      @include if-mobile {
         padding-top: sizeToLessSize($headerPadding);
         padding-bottom: sizeToLessSize($headerPadding);
-        font-size: sizeToLessSize($defaultFontSize);
       }
       @include border($borderColor);
 
@@ -73,9 +72,10 @@ $modalFooterPadding: 15px;
     }
 
     .modal-body {
-      @include if-little-screen {
+      @include if-mobile {
         padding: sizeToLessSize($modalBodyPaddingTopBottom) sizeToLessSize($modalBodyPaddingRightLeft);
       }
+
       padding: $modalBodyPaddingTopBottom $modalBodyPaddingRightLeft;
 
       label {
@@ -93,7 +93,7 @@ $modalFooterPadding: 15px;
     }
 
     .modal-footer {
-      @include if-little-screen {
+      @include if-mobile {
         padding: sizeToLessSize($modalFooterPadding);
       }
       @include border($borderColor);
