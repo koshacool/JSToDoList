@@ -14,7 +14,7 @@ $afterHeight: 25px;
 $afterBorderSize: 3px;
 
 .checkbox-container {
-  @include if-little-screen {
+  @include if-mobile {
     padding-left: sizeToLessSize($containerPaddingLeft) + 5px;
   }
 
@@ -53,11 +53,6 @@ $afterBorderSize: 3px;
 
   .checkmark {
     @include border($checkboxBorderColor);
-    @include if-little-screen {
-      margin-left: sizeToLessSize(10px);
-      width: sizeToLessSize($checkboxSize);
-      height: sizeToLessSize($checkboxSize);
-    }
 
     position: absolute;
     top: 0;
@@ -68,13 +63,6 @@ $afterBorderSize: 3px;
 
     &::after {
       @include border($black);
-      @include if-little-screen {
-        top: sizeToLessSize($afterTop);
-        left: sizeToLessSize($afterLeft);
-        border-width: 0 sizeToLessSize($afterBorderSize) sizeToLessSize($afterBorderSize) 0;
-        width: sizeToLessSize($afterWidth);
-        height: sizeToLessSize($afterHeight);
-      }
 
       display: none;
       position: absolute;

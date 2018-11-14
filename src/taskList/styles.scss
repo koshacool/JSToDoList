@@ -26,21 +26,32 @@ $taskActionButtonFontSize: 30px;
   height: 100vh;
 
   .main-page__actions {
-    @include if-little-screen {
-      margin-top: sizeToLessSize($actionsMarginTop);
+    @include if-mobile {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+      width: 100%;
     }
 
     margin: $actionsMarginTop 0 $actionsMarginBotom;
 
     .button {
+      @include if-mobile {
+        margin: 1px 0;
+        border-radius: $borderRadius;
+      }
+
       margin-left: -4px;
     }
   }
 
   .filters {
     @include layout-type(row, wrap);
+    @include if-mobile {
+      padding-bottom: 30px;
+    }
     @include if-little-screen {
-      padding-bottom: sizeToLessSize($filterPadingBottom);
+      padding-bottom: 5px;
     }
 
     align-items: center;
@@ -51,10 +62,6 @@ $taskActionButtonFontSize: 30px;
 
     .button,
     .task-types {
-      @include if-little-screen {
-        font-size: sizeToLessSize($filtersFontSize);
-      }
-
       font-size: $filtersFontSize;
     }
 
@@ -80,14 +87,29 @@ $taskActionButtonFontSize: 30px;
     }
 
     .filters__types {
+      @include if-little-screen {
+        @include layout-type(row, wrap);
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        width: 100%;
+      }
+
       position: relative;
+
+      .task-types {
+        @include if-little-screen {
+          display: inline-block;
+          flex: 1;
+        }
+      }
 
       .tasks-count {
         @include if-little-screen {
-          bottom: sizeToLessSize($tasksCountBottom);
-          left: sizeToLessSize($tasksCountLeft);
-          font-size: sizeToLessSize($fontSize);
+          position: static;
+          margin: 0 10px;
         }
+
         position: absolute;
         bottom: $tasksCountBottom;
         left: $tasksCountLeft;
@@ -95,10 +117,24 @@ $taskActionButtonFontSize: 30px;
         font-style: italic;
       }
     }
+
+    .filters__buttons {
+      @include if-little-screen {
+        @include layout-type(row, wrap);
+        justify-content: space-between;
+        margin-bottom: 5px;
+        width: 100%;
+
+        .button {
+          flex: 1;
+          margin-left: 0;
+        }
+      }
+    }
   }
 
   .search {
-    @include if-little-screen {
+    @include if-mobile {
       margin-bottom: sizeToLessSize($searchMarginBottom);
     }
 
@@ -120,9 +156,6 @@ $taskActionButtonFontSize: 30px;
 
     .task-item {
       @include layout-type(row, no-wrap);
-      @include if-little-screen {
-        min-height: sizeToLessSize($taskItemMihHeight);
-      }
 
       align-items: center;
       justify-content: space-between;
@@ -147,38 +180,20 @@ $taskActionButtonFontSize: 30px;
       min-width: 100px;
 
       .task-text__title {
-        @include if-little-screen {
-          margin: sizeToLessSize($taskTitleMargin) 0;
-          font-size: sizeToLessSize($taskTitleFontSize);
-        }
-
         margin: $taskTitleMargin 0;
         font-size: $taskTitleFontSize;
         font-weight: 600;
       }
 
       .task-text__description {
-        @include if-little-screen {
-          font-size: sizeToLessSize($defaultFontSize);
-        }
-
         font-size: $defaultFontSize;
       }
     }
 
     .task-actions {
-      @include if-little-screen {
-        margin-right: sizeToLessSize($taskActionMarginRight);
-      }
-
       margin-right: $taskActionMarginRight;
 
       .task-actions__button {
-        @include if-little-screen {
-          margin-left: sizeToLessSize($taskActionButtonMarginLeft);
-          font-size: sizeToLessSize($taskActionButtonFontSize);
-        }
-
         margin-left: $taskActionButtonMarginLeft;
         cursor: pointer;
         padding: 5px;
