@@ -10,15 +10,11 @@ $scrollThumbBorderRadius: 10px;
 $scrollBackGround: rgba(9, 9, 9, .1);
 $scrollBackGroundHover: rgba(0, 0, 0, .2);
 
-$borderRadius: 4px;
+
 $paddingTopBottom: 6px;
 $paddingRightLeft: 12px;
 
 body {
-  @include if-little-screen {
-    font-size: sizeToLessSize($defaultFontSize);
-  }
-
   transition: all $defaultTransitionDuration;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
@@ -29,10 +25,6 @@ body {
   textarea,
   select {
     @include border($grey);
-    @include if-little-screen {
-      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
-      font-size: sizeToLessSize($defaultFontSize);
-    }
 
     display: block;
     border-radius: $borderRadius;
@@ -52,14 +44,9 @@ body {
 
   .button {
     @include border($borderColor);
-    @include if-little-screen {
-      padding: sizeToLessSize($paddingTopBottom) sizeToLessSize($paddingRightLeft);
-      font-size: sizeToLessSize($defaultFontSize);
-    }
 
     display: inline-block;
     margin-bottom: 0;
-    border-radius: $borderRadius;
     background-color: $white;
     background-image: none;
     cursor: pointer;
@@ -77,6 +64,14 @@ body {
     -webkit-user-select: none;
     touch-action: manipulation;
     -ms-touch-action: manipulation;
+
+    &:first-child {
+      border-radius: $borderRadius 0 0 $borderRadius;
+    }
+
+    &:last-child {
+      border-radius: 0 $borderRadius $borderRadius  0;
+    }
 
     &:hover {
       @include border($actoveBorderColor);

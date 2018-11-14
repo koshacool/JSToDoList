@@ -1,7 +1,14 @@
-$maxWidth: 490px;
+$mobileMaxWidth: 420px;
+$littleScreenMaxWidth: 325px;
+
+@mixin if-mobile {
+  @media (max-width: $mobileMaxWidth - 1px) {
+    @content;
+  }
+}
 
 @mixin if-little-screen {
-  @media (max-width: $maxWidth - 1px) {
+  @media (max-width: $littleScreenMaxWidth - 1px) {
     @content;
   }
 }
